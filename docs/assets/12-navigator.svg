@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="350" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">Point features in the Part Navigator / パートナビゲータに点フィーチャを作成</title>
+  <desc id="desc">Conceptual before and after feature lists, not an NX screenshot. Circle members are read in timestamp order; center point features are added, but an output group is not automatically created.</desc>
+  <rect width="960" height="350" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Real features, not temporary markers / 一時表示ではなく点フィーチャ</text><text x="30" y="72" font-size="17">PART NAVIGATOR SCHEMATIC / パートナビゲータの模式図</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="100" width="400" height="170" rx="10"/><rect x="480" y="100" width="450" height="210" rx="10"/></g>
+    <g font-size="21"><text x="50" y="134" font-weight="700">Before / 作成前</text><text x="500" y="134" font-weight="700">After / 作成後</text><text x="50" y="174">▾ CLIP_CIRCLE (example / 例)</text><text x="76" y="210">Circle #143</text><text x="76" y="245">Circle #144</text><text x="500" y="174">▾ CLIP_CIRCLE (example / 例)</text><text x="526" y="210">Circle #143, Circle #144</text><text x="500" y="252" fill="#cb3d3d">ARC_CENTER_001</text><text x="500" y="287" fill="#cb3d3d">ARC_CENTER_002</text></g>
+    <text x="30" y="333" font-size="18">Create a point group manually for 1-3 / 1-3で使用する点グループは手動で作成してください</text>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380" role="img" aria-labelledby="title desc">
+  <title id="title">Test with Journal Play first / まずジャーナル再生でテスト</title>
+  <desc id="desc">Schematic steps: open a suitable work part in Modeling, locate Journal Play, browse to a VB file, run it and inspect results. Not an NX screenshot.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="380" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Prove the journal before the button / ボタン登録の前に動作確認</text><text x="30" y="72" font-size="17">UI SCHEMATIC, not a screenshot / UI模式図（実際の画面ではありません）</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="105" width="275" height="190" rx="10"/><rect x="343" y="105" width="275" height="190" rx="10"/><rect x="656" y="105" width="274" height="190" rx="10"/></g>
+    <text x="48" y="141" font-size="21" font-weight="700">1  Work part / 作業パート</text><text x="48" y="180" font-size="19">Modeling / モデリング</text><text x="48" y="218" font-size="19">Correct groups and units</text><text x="48" y="248" font-size="19">入力グループ・単位を確認</text>
+    <text x="361" y="141" font-size="21" font-weight="700">2  Journal Play / 再生</text><text x="361" y="180" font-size="19">Tools → Journal → Play</text><text x="361" y="218" font-size="19">Or use Command Finder</text><text x="361" y="248" font-size="19">またはコマンド検索を使用</text>
+    <text x="674" y="141" font-size="21" font-weight="700">3  Browse → Run / 実行</text><text x="674" y="180" font-size="19" fill="#267bb5">3D_to_Draft\1-… .vb</text><text x="674" y="218" font-size="19">Inspect result + messages</text><text x="674" y="248" font-size="19">結果とメッセージを確認</text>
+    <g stroke="#16324f" stroke-width="2" marker-end="url(#a)"><path d="M310 201h26"/><path d="M623 201h26"/></g>
+    <text x="30" y="343" font-size="19">If Play fails, fix the model/input issue before customizing / 再生に失敗したら、先にモデル・入力を確認</text>
+  </g>
+</svg>

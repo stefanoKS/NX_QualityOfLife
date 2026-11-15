@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400" role="img" aria-labelledby="title desc">
+  <title id="title">Three parents define each coordinate system / 3種類の親形状から座標系を定義</title>
+  <desc id="desc">A source point sets the origin, the nearest spline tangent sets Z, and the nearest surface face provides the raw normal for Y. The origin is not relocated to the spline or surface.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#24835b"/></marker></defs>
+  <rect width="960" height="400" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Point + Spline + Surface / 点＋スプライン＋サーフェス</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Independent selections from the work part / 作業パートから3種類の入力を選択</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="105" width="285" height="235" rx="10"/><rect x="338" y="105" width="285" height="235" rx="10"/><rect x="646" y="105" width="284" height="235" rx="10"/></g>
+    <g font-size="21" font-weight="700"><text x="48" y="141">1  Point group / 点群</text><text x="356" y="141">2  Spline / スプライン</text><text x="664" y="141">3  Surface / 面</text></g>
+    <g fill="#ef8c23"><circle cx="95" cy="223" r="7"/><circle cx="171" cy="194" r="7"/><circle cx="249" cy="221" r="7"/></g>
+    <path d="M367 256Q478 137 594 227" fill="none" stroke="#267bb5" stroke-width="4"/><path d="M424.25 210.2764l110-14.0528" stroke="#24835b" stroke-width="3" marker-end="url(#a)"/>
+    <path d="M675 262l79-78 147 40-79 78z" fill="#e7f2fa" stroke="#267bb5" stroke-width="2"/><path d="M790 238v-65" stroke="#24835b" stroke-width="3" marker-end="url(#a)"/>
+    <g font-size="19"><text x="48" y="319">Origin / 原点</text><text x="356" y="319">Z = tangent / 接線</text><text x="664" y="319">Raw normal / 元の面法線</text></g>
+    <text x="30" y="377" font-size="19">Directions use nearest locations; origin stays / 方向は最近点で求め、原点は元の点に保持</text>
+  </g>
+</svg>

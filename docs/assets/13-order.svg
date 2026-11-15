@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="370" viewBox="0 0 960 370" role="img" aria-labelledby="title desc">
+  <title id="title">Feature order is path order / フィーチャの順序が経路の順序</title>
+  <desc id="desc">The same four spatial points can form an unwanted crossing sequence or a useful path. The journal orders by feature timestamp, not nearest-neighbor distance or point name.</desc>
+  <rect width="960" height="370" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Check the point sequence first / 点の並び順を先に確認</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Lines show sequence, not spline output / 線は順序を示し、出力形状ではありません</text>
+    <g fill="#fff" stroke="#d4dee8"><rect x="30" y="100" width="430" height="210" rx="10"/><rect x="500" y="100" width="430" height="210" rx="10"/></g>
+    <path d="M92 250L385 160L92 160L385 250" fill="none" stroke="#cb3d3d" stroke-width="3"/><path d="M562 250L562 160L855 160L855 250" fill="none" stroke="#267bb5" stroke-width="3"/>
+    <g fill="#ef8c23"><circle cx="92" cy="250" r="7"/><circle cx="385" cy="160" r="7"/><circle cx="92" cy="160" r="7"/><circle cx="385" cy="250" r="7"/><circle cx="562" cy="250" r="7"/><circle cx="562" cy="160" r="7"/><circle cx="855" cy="160" r="7"/><circle cx="855" cy="250" r="7"/></g>
+    <g font-size="19"><text x="48" y="130">Unwanted / 意図しない順序</text><text x="518" y="130">Intended path / 意図する経路</text><text x="65" y="281">1</text><text x="398" y="165">2</text><text x="65" y="165">3</text><text x="398" y="255">4</text><text x="535" y="281">1</text><text x="535" y="165">2</text><text x="868" y="165">3</text><text x="868" y="255">4</text></g>
+    <text x="30" y="346" font-size="19">Order comes from timestamps / 順序は名前・クリック順ではなくタイムスタンプで決定</text>
+  </g>
+</svg>

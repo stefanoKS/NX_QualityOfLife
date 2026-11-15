@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">Connect a ribbon command to a journal and BMP / リボンにジャーナルとBMPを登録</title>
+  <desc id="desc">Illustrated conceptual Customize dialog, a New User Command dragged to a custom ribbon group, and separate action, image and tooltip settings. Not an NX screenshot.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="440" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">One button, two file paths / 1つのボタンに2つの参照先</text><text x="30" y="72" font-size="17">UI SCHEMATIC / UI模式図 · Not an exact dialog layout / 実際の配置とは異なります</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="105" width="350" height="275" rx="10"/><rect x="445" y="105" width="485" height="275" rx="10"/></g>
+    <text x="50" y="140" font-size="22" font-weight="700">Customize / カスタマイズ</text><text x="50" y="176" font-size="19">Ctrl+1 · Commands / コマンド</text><rect x="50" y="195" width="310" height="52" rx="5" fill="#e7f2fa"/><text x="65" y="228" font-size="20">New User Command</text>
+    <text x="50" y="282" font-size="19">Drag to a ribbon group</text><text x="50" y="313" font-size="19">リボンのグループへドラッグ</text><text x="50" y="352" font-size="18">Name / 名前：1-1 Create Circles</text>
+    <path d="M365 220h68" stroke="#16324f" stroke-width="2" marker-end="url(#a)"/>
+    <text x="465" y="140" font-size="22" font-weight="700">Edit the button / ボタンの設定</text>
+    <g font-size="19"><text x="465" y="181">Edit Action → Journal File → … .vb</text><text x="465" y="211">アクション編集 → ジャーナルファイル</text><text x="465" y="255">Change Button Image/Icon → … .bmp</text><text x="465" y="285">ボタン画像を変更 → 同名のBMP</text><text x="465" y="330">Button Message Text → useful tooltip</text><text x="465" y="360">メッセージ → 用途が分かる説明文</text></g>
+    <text x="30" y="416" font-size="19">Close Customize, then test the button / カスタマイズを閉じてからボタンをテスト</text>
+  </g>
+</svg>

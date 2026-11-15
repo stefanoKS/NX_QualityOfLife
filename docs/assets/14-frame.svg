@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">A right-handed tangent-aligned frame / 接線に沿った右手座標系</title>
+  <desc id="desc">Isometric projection of a right-handed local frame. Z follows the spline tangent. The raw normal n equals Y plus 0.45 Z in this example. The gray surface spans X and Z minus 0.45 Y, so n is its normal. Removing n's Z component yields Y. X equals Y cross Z, so X cross Y equals Z.</desc>
+  <defs><marker id="g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#24835b"/></marker><marker id="b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#267bb5"/></marker></defs>
+  <rect width="960" height="500" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Z is primary; Y is orthogonalized / Zを基準にYを直交化</text><text x="30" y="72" font-size="17">ISOMETRIC SCHEMATIC / 等角投影の模式図 · Projected axes are not 90° on the page / 紙面上の角度は90°ではありません</text>
+    <path d="M280 238.4L473.6 350.4L280 361.6L86.4 249.6z" fill="#e7f2fa" stroke="#9aa7b5" stroke-width="2"/>
+    <path d="M94 394C164 355 227 330.661157 280 300S393 243 470 206" fill="none" stroke="#267bb5" stroke-width="4"/>
+    <g stroke="#24835b" stroke-width="4" marker-end="url(#g)"><path d="M280 300l-121-70"/><path d="M280 300v-140"/><path d="M280 300l121-70"/></g>
+    <path d="M280 300l54.45-171.5" stroke="#267bb5" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#b)"/><path d="M334.45 128.5L280 160" stroke="#9aa7b5" stroke-width="2" stroke-dasharray="5 5"/>
+    <circle cx="280" cy="300" r="7" fill="#ef8c23"/>
+    <g font-size="22" font-weight="700"><text x="130" y="222">X</text><text x="260" y="145">Y</text><text x="410" y="231">Z</text><text x="340" y="125" fill="#267bb5">n</text></g>
+    <g font-size="20"><text x="510" y="130">O = source point / 元の点</text><text x="510" y="174">Z = unit tangent / 単位接線</text><text x="510" y="218">Y = normalize(n − (n·Z)Z)</text><text x="510" y="250">面法線からZ方向成分を除去</text><text x="510" y="294">X = Y × Z</text><text x="510" y="326">X × Y = Z  (right-handed / 右手系)</text></g>
+    <text x="30" y="427" font-size="19">Reverse Y: reverse n, so Y and X flip while Z stays / Y反転：面法線を逆向きにし、Zを保ってXとYを反転</text>
+    <text x="30" y="465" font-size="19" fill="#cb3d3d">Nearly parallel n and Z cannot define a stable frame / 面法線と接線がほぼ平行な場合は作成できません</text>
+  </g>
+</svg>

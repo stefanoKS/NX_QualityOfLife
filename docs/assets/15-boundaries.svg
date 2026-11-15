@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">Equal span, different corner coverage / 幅・高さが同じでも四隅の範囲が異なる</title>
+  <desc id="desc">A 120 mm square and radius 60 mm circle share the same 120 mm width and height. The point at local 50,50 is in the square, but outside the circle because its radius is about 70.71 mm. These example sizes are not defaults.</desc>
+  <rect width="960" height="440" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Square side W vs Circle radius R / 正方形の一辺Wと円の半径R</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Example, not defaults / 図の寸法は例であり、既定値ではありません</text>
+    <rect x="95" y="134" width="228" height="228" fill="#e7f2fa" stroke="#267bb5" stroke-width="3"/><circle cx="670" cy="248" r="114" fill="#e7f2fa" stroke="#267bb5" stroke-width="3"/><rect x="556" y="134" width="228" height="228" fill="none" stroke="#9aa7b5" stroke-width="2" stroke-dasharray="7 5"/>
+    <g stroke="#9aa7b5" stroke-width="1.5"><path d="M209 120v257M80 248h259M670 120v257M541 248h259"/></g>
+    <g fill="#ef8c23"><circle cx="209" cy="248" r="6"/><circle cx="304" cy="153" r="7"/><circle cx="670" cy="248" r="6"/><circle cx="765" cy="153" r="7"/></g>
+    <g stroke="#24835b" stroke-width="2"><path d="M670 248h114"/><path d="M95 113h228m-228-6v12m228-12v12"/></g>
+    <g font-size="20"><text x="120" y="104">W = 120 mm</text><text x="692" y="238">R = 60 mm</text><text x="320" y="160">(+50,+50)</text><text x="790" y="160">(+50,+50)</text><text x="116" y="395">Inside / 範囲内</text><text x="585" y="395">Outside / 範囲外</text></g>
+    <text x="30" y="426" font-size="18">Defaults: W = 5 mm; R = 30 mm / 既定値：一辺5 mm、半径30 mm（既定値同士の幅は異なります）</text>
+  </g>
+</svg>

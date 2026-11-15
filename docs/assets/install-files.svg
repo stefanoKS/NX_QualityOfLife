@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="350" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">One command, four matching files / 1コマンドに4種類の同名ファイル</title>
+  <desc id="desc">The journal action points to VB, the ribbon image points to BMP. PNG is a preview and ICO is optional. No conversion needed.</desc>
+  <rect width="960" height="350" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Keep the supplied files together / 配布ファイルをまとめて保管</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Same filename stem / 拡張子以外は同じファイル名</text>
+    <g stroke-width="2" fill="#fff"><rect x="30" y="105" width="210" height="164" rx="10" stroke="#267bb5"/><rect x="260" y="105" width="210" height="164" rx="10" stroke="#267bb5"/><rect x="490" y="105" width="210" height="164" rx="10" stroke="#9aa7b5"/><rect x="720" y="105" width="210" height="164" rx="10" stroke="#9aa7b5"/></g>
+    <g font-size="34" font-weight="700"><text x="56" y="153">.vb</text><text x="286" y="153">.bmp</text><text x="516" y="153">.png</text><text x="746" y="153">.ico</text></g>
+    <g font-size="19"><text x="50" y="190">Journal action</text><text x="50" y="220">実行するジャーナル</text><text x="280" y="190">Ribbon image</text><text x="280" y="220">リボン用の画像</text><text x="510" y="190">Preview / docs</text><text x="510" y="220">プレビュー・説明用</text><text x="740" y="190">Optional icon</text><text x="740" y="220">任意のアイコン形式</text></g>
+    <text x="30" y="315" font-size="21" fill="#24835b" font-weight="600">BMP is ready to use. No conversion. / BMPはそのまま使用できます。変換不要です。</text>
+  </g>
+</svg>

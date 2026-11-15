@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="350" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">Choose the longest component; reject branches / 最長の連結成分を選択し、分岐は拒否</title>
+  <desc id="desc">Left: a long unbranched connected component is selected and a disconnected short piece excluded. Middle: the longest component branches, so the composite fails rather than falling back to a shorter component. Right: collinear samples cannot define a circle.</desc>
+  <rect width="960" height="350" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Topology matters / つながり方を確認</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · One decision per Composite Curve feature / 複合曲線フィーチャごとに判定</text>
+    <g fill="#fff" stroke="#d4dee8"><rect x="30" y="100" width="285" height="190" rx="10"/><rect x="338" y="100" width="285" height="190" rx="10"/><rect x="646" y="100" width="284" height="190" rx="10"/></g>
+    <g fill="none" stroke-width="4"><path d="M60 223Q116 117 181 195T285 185" stroke="#267bb5"/><path d="M75 253h53" stroke="#9aa7b5" stroke-dasharray="6 5"/><path d="M367 225L477 165L585 220M477 165v-45" stroke="#cb3d3d"/><path d="M677 183h219" stroke="#267bb5"/></g>
+    <g fill="#ef8c23"><circle cx="702" cy="183" r="7"/><circle cx="786" cy="183" r="7"/><circle cx="869" cy="183" r="7"/></g>
+    <g font-size="19"><text x="49" y="130">Longest chain / 最長の連続部</text><text x="49" y="279">Excluded / 分離部分は除外</text><text x="356" y="279">Branch → skip / 分岐 → スキップ</text><text x="665" y="238">Collinear → skip</text><text x="665" y="270">一直線上の3点 → スキップ</text></g>
+    <text x="30" y="327" font-size="18">Branching longest component → skip / 最長成分に分岐があればスキップ</text>
+  </g>
+</svg>

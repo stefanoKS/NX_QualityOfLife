@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340" role="img" aria-labelledby="title desc">
+  <title id="title">Download once, keep the path stable / ダウンロード後は保存先を固定</title>
+  <desc id="desc">Schematic browser download, ZIP extraction and permanent local folder. Not a screenshot.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="340" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Download → Extract → Keep / 取得 → 展開 → 固定</text><text x="30" y="70" font-size="17">UI SCHEMATIC / UI模式図 · Labels vary by release / 表示はバージョンにより異なります</text>
+    <g stroke="#16324f" stroke-width="2" fill="#fff"><rect x="30" y="100" width="265" height="165" rx="10"/><rect x="347" y="100" width="265" height="165" rx="10"/><path d="M666 139v126h264V120H780l-20-20h-94z"/></g>
+    <text x="48" y="135" font-size="21" font-weight="700">1  GitHub / ブラウザ</text><rect x="49" y="152" width="225" height="42" rx="5" fill="#24835b"/><text x="68" y="180" fill="#fff" font-size="21">Code → Download ZIP</text><text x="49" y="236" font-size="18">No account / 登録不要</text>
+    <text x="367" y="135" font-size="21" font-weight="700">2  Extract / すべて展開</text><path d="M456 154v55m-14-42h28m-28 15h28m-28 15h28" stroke="#267bb5" stroke-width="4"/><text x="367" y="236" font-size="18">Do not run in ZIP / ZIP内は不可</text>
+    <text x="685" y="171" font-size="21" font-weight="700">3  Permanent / 固定先</text><text x="685" y="204" font-size="18">C:\NX_Tools\</text><text x="685" y="231" font-size="18">NX_QualityOfLife\</text>
+    <g stroke="#16324f" stroke-width="2" marker-end="url(#a)"><path d="M302 184h37"/><path d="M619 184h38"/></g>
+    <text x="30" y="310" font-size="19">Ribbon buttons remember the journal path / リボンボタンはジャーナルの保存先を参照します</text>
+  </g>
+</svg>

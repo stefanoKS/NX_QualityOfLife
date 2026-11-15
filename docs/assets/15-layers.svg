@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Layers preserve categories; views isolate sectors / レイヤで分類を保持し、ビューで断面を分離</title>
+  <desc id="desc">Bodies on numeric layers 1, 2 and 3 create corresponding curves on layers 1, 2 and 3 for both sectors. Each drafting view displays its own sector objects, not a separate sector layer.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="420" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Categories ≠ Sector isolation / 分類レイヤと断面の表示分離は別</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Example layer numbers and colors / レイヤ番号と色は説明用の例</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="107" width="290" height="235" rx="10"/><rect x="390" y="107" width="250" height="235" rx="10"/><rect x="680" y="107" width="250" height="235" rx="10"/></g>
+    <g font-size="21" font-weight="700"><text x="48" y="143">Bodies / 元ボディ</text><text x="409" y="143">View A / ビューA</text><text x="699" y="143">View B / ビューB</text></g>
+    <g font-size="19"><text x="48" y="190" fill="#267bb5">L1  Body panel / 車体</text><text x="48" y="236" fill="#24835b">L2  Door panel / ドア</text><text x="48" y="282" fill="#cb3d3d">L3  Seal / シール</text><text x="409" y="189" fill="#267bb5">A curves → L1</text><text x="409" y="235" fill="#24835b">A curves → L2</text><text x="409" y="281" fill="#cb3d3d">A curves → L3</text><text x="699" y="189" fill="#267bb5">B curves → L1</text><text x="699" y="235" fill="#24835b">B curves → L2</text><text x="699" y="281" fill="#cb3d3d">B curves → L3</text><text x="409" y="322">Only A / Aのみ表示</text><text x="699" y="322">Only B / Bのみ表示</text></g>
+    <path d="M328 219h52" stroke="#16324f" stroke-width="2" marker-end="url(#a)"/>
+    <text x="30" y="377" font-size="19">Body.Layer → curve layer; view-dependent erasure hides other sectors</text><text x="30" y="405" font-size="19">元ボディのレイヤ番号を曲線へ継承し、他の断面はビューごとの表示設定で非表示</text>
+  </g>
+</svg>

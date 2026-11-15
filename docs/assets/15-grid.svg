@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="480" viewBox="0 0 960 480" role="img" aria-labelledby="title desc">
+  <title id="title">Row-major drafting layout at one-to-one scale / 1対1で左上から行方向に配置</title>
+  <desc id="desc">Example with six CSYS, circle radius 30, gap 10 and drawing 220 by 150 mm. Three columns and two rows. Centers are 40,110,180 in X and 110,40 in Y. Empty sector 2 retains its slot. Not a real drawing screenshot.</desc>
+  <rect width="960" height="480" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Grid centers follow CSYS origins / 座標系原点を格子の中心へ配置</text><text x="30" y="72" font-size="17">DRAFTING SCHEMATIC / 図面の模式図 · Example, not default sheet size / 図面寸法は例です</text>
+    <rect x="55" y="110" width="440" height="300" fill="#fff" stroke="#16324f" stroke-width="2"/>
+    <g fill="none" stroke="#9aa7b5" stroke-dasharray="5 4"><rect x="75" y="130" width="120" height="120"/><rect x="215" y="130" width="120" height="120"/><rect x="355" y="130" width="120" height="120"/><rect x="75" y="270" width="120" height="120"/><rect x="215" y="270" width="120" height="120"/><rect x="355" y="270" width="120" height="120"/></g>
+    <g fill="none" stroke="#cb3d3d" stroke-width="3"><path d="M110 208q-25-57 18-51t25 51zM390 208q-25-57 18-51t25 51zM110 348q-25-57 18-51t25 51zM250 348q-25-57 18-51t25 51zM390 348q-25-57 18-51t25 51z"/></g>
+    <g fill="#ef8c23"><circle cx="135" cy="190" r="4"/><circle cx="415" cy="190" r="4"/><circle cx="135" cy="330" r="4"/><circle cx="275" cy="330" r="4"/><circle cx="415" cy="330" r="4"/></g>
+    <g font-size="18"><text x="84" y="242">1 · #111</text><text x="225" y="242">2 · empty</text><text x="364" y="242">3 · #113</text><text x="84" y="382">4 · #114</text><text x="225" y="382">5 · #115</text><text x="364" y="382">6 · #116</text></g>
+    <g font-size="20"><text x="535" y="139">R = 30 mm · gap / 間隔 = 10 mm</text><text x="535" y="181">Sheet / 図面 = 220 × 150 mm</text><text x="535" y="223">Pitch / ピッチ = 60 + 10 = 70 mm</text><text x="535" y="265">3 columns × 2 rows / 3列×2行</text><text x="535" y="307">1:1 sheet + views / シート・ビュー1:1</text><text x="535" y="349">Empty slot is retained / 空き枠は維持</text><text x="535" y="391">X right, Y up / X右向き・Y上向き</text></g>
+    <text x="30" y="452" font-size="19">Left → right, then top → bottom / 左から右へ、次に上の行から下の行へ</text>
+  </g>
+</svg>

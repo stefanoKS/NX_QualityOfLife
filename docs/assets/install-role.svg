@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340" role="img" aria-labelledby="title desc">
+  <title id="title">Keep both the role and the tool folder / ロールとツールフォルダを両方保管</title>
+  <desc id="desc">Saving an NX role preserves customization, not a copy of the referenced journals. Restore the role and check the same permanent journal paths.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="340" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Save the layout, retain the files / 配置を保存し、ファイルも保持</text><text x="30" y="72" font-size="17">UI SCHEMATIC / UI模式図 · Role controls and labels vary / ロールの操作は環境依存</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="110" width="265" height="155" rx="10"/><rect x="348" y="110" width="265" height="155" rx="10"/><rect x="666" y="110" width="264" height="155" rx="10"/></g>
+    <g font-size="21" font-weight="700"><text x="48" y="146">1  Save / 保存</text><text x="366" y="146">2  Retain / 保管</text><text x="684" y="146">3  Restore / 復元</text></g>
+    <g font-size="19"><text x="48" y="188">User role / ユーザロール</text><text x="48" y="223">Back up .mtx / バックアップ</text><text x="366" y="188">Tool folder + role file</text><text x="366" y="223">ツール一式＋ロールファイル</text><text x="684" y="188">Load role; check paths</text><text x="684" y="223">ロール読込み・参照先確認</text></g>
+    <g stroke="#16324f" stroke-width="2" marker-end="url(#a)"><path d="M302 184h38"/><path d="M620 184h38"/></g>
+    <text x="30" y="310" font-size="19" fill="#cb3d3d">A role is not a journal backup / ロールの保存だけではジャーナル本体は保存されません</text>
+  </g>
+</svg>

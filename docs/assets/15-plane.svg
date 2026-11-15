@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">A bounded XY cutting sheet creates curves / 範囲を限定したXY切断面から交線を作成</title>
+  <desc id="desc">Isometric local section. The seal is extruded along local Z, a blue bounded XY sheet crosses it and a panel, and red intersections are drawn on the sheet. No source body is Boolean cropped.</desc>
+  <defs><marker id="g" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#24835b"/></marker></defs>
+  <rect width="960" height="440" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Intersect faces, keep original bodies / 面同士の交線を作成し、元ボディは保持</text><text x="30" y="72" font-size="17">ISOMETRIC SCHEMATIC / 等角投影の模式図 · Red = model curves / 赤＝モデル内の交線</text>
+    <path d="M135 315L365 182L558 293L328 426z" fill="#e5ebf1" stroke="#9aa7b5" stroke-width="2"/>
+    <path d="M220 280C180 210 210 168 260 195L450 85C400 58 370 100 410 170z" fill="#e5ebf1" stroke="#16324f" stroke-width="2"/>
+    <path d="M200 135L410 256L410 386L200 265z" fill="#e7f2fa" fill-opacity="0.85" stroke="#267bb5" stroke-width="3"/>
+    <path d="M250 292C205 245 215 204 250 215C290 228 300 267 278 282L278 307z" fill="none" stroke="#cb3d3d" stroke-width="4"/>
+    <path d="M215 273L395 377" fill="none" stroke="#cb3d3d" stroke-width="4"/>
+    <g stroke="#24835b" stroke-width="3" marker-end="url(#g)"><path d="M350 322l-66-38"/><path d="M350 322v-76"/><path d="M350 322l66-38"/></g><circle cx="350" cy="322" r="6" fill="#ef8c23"/>
+    <g font-size="20"><text x="267" y="281">X</text><text x="334" y="236">Y</text><text x="427" y="283">Z</text><text x="570" y="148" fill="#267bb5">Bounded XY sheet / 有界XY面</text><text x="570" y="201">Seal + panel faces / シール・パネルの面</text><text x="570" y="254" fill="#cb3d3d">Intersection curves / 交線</text><text x="570" y="307">No Boolean crop / ブーリアン切取りなし</text><text x="570" y="360">No automatic hatch / 自動ハッチングなし</text></g>
+  </g>
+</svg>

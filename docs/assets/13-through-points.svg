@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="370" viewBox="0 0 960 370" role="img" aria-labelledby="title desc">
+  <title id="title">Degree-three open spline through source points / 元の点を通る非閉鎖の3次スプライン</title>
+  <desc id="desc">A cubic Bezier example passes exactly through four orange points at parameters zero, one third, two thirds and one. The gray polyline only shows their order; it is not a control polygon used instead of interpolation.</desc>
+  <rect width="960" height="370" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Through Points, not control-polygon only / 点を通過するスプライン</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Automotive seal reference path / 自動車のシール基準経路の例</text>
+    <path d="M120 250L346.667 130L613.333 130L840 250" fill="none" stroke="#9aa7b5" stroke-width="2" stroke-dasharray="6 5"/>
+    <path d="M120 250C300 70 660 70 840 250" fill="none" stroke="#cb3d3d" stroke-width="5"/>
+    <g fill="#ef8c23" stroke="#fff" stroke-width="2"><circle cx="120" cy="250" r="8"/><circle cx="346.667" cy="130" r="8"/><circle cx="613.333" cy="130" r="8"/><circle cx="840" cy="250" r="8"/></g>
+    <g font-size="20"><text x="92" y="287">P1</text><text x="329" y="112">P2</text><text x="596" y="112">P3</text><text x="823" y="287">P4</text><text x="358" y="212">Degree 3 · Open · Associative</text><text x="358" y="242">3次・非閉鎖・関連付けあり</text></g>
+    <text x="30" y="343" font-size="19">At least four points · G1/G2/G3 = None / 4点以上必要・G1/G2/G3拘束なし</text>
+  </g>
+</svg>

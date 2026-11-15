@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="350" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">One result per eligible composite / 対象の複合曲線ごとに円を1つ作成</title>
+  <desc id="desc">Three composite features in timestamp order produce three circles named HOLE_CIRCLE_001 through 003. Grouping the results for the next command is manual.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="350" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Several boundaries → Several circles / 複数の境界 → 複数の円</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Timestamp order / タイムスタンプ昇順</text>
+    <path d="M48 211Q86 128 119 197T187 205M211 211Q246 125 284 205T349 201M372 210Q411 128 449 205" fill="none" stroke="#267bb5" stroke-width="4"/>
+    <g fill="none" stroke="#cb3d3d" stroke-width="4"><circle cx="578" cy="186" r="44"/><circle cx="718" cy="186" r="44"/><circle cx="858" cy="186" r="44"/></g>
+    <path d="M464 186h55" stroke="#16324f" stroke-width="2" marker-end="url(#a)"/>
+    <g font-size="19"><text x="60" y="267">#101</text><text x="225" y="267">#108</text><text x="382" y="267">#120</text><text x="548" y="267">001</text><text x="688" y="267">002</text><text x="828" y="267">003</text><text x="540" y="114">HOLE_CIRCLE_…</text></g>
+    <text x="30" y="322" font-size="19">Next: manually group the circle features, e.g. CLIP_CIRCLE / 次に円を手動でグループ化（例：CLIP_CIRCLE）</text>
+  </g>
+</svg>

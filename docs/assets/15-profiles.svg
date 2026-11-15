@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380" role="img" aria-labelledby="title desc">
+  <title id="title">After: local curve profiles, not filled sections / 作成後：塗りつぶしではなく局所的な断面曲線</title>
+  <desc id="desc">A schematic seal contour, two sheet panel traces and a small extra solid contour. All are line-only intersection outputs. Sheet traces need not be closed. The dashed boundary is explanatory construction, not a required drafted outline.</desc>
+  <rect width="960" height="380" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Inspect every profile / 各断面の輪郭を確認</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Dashed window is explanatory only / 破線は切断範囲の説明用</text>
+    <rect x="80" y="105" width="400" height="235" fill="none" stroke="#9aa7b5" stroke-width="2" stroke-dasharray="7 5"/>
+    <g fill="none" stroke="#cb3d3d" stroke-width="4"><path d="M214 276C145 226 172 136 235 151C291 165 313 242 261 268L270 300L238 300z"/><path d="M214 244C181 218 197 174 228 181C257 186 273 227 246 245z"/><path d="M110 295H188L204 318H350"/><path d="M285 115v146l29 18h132"/><circle cx="378" cy="182" r="22"/></g>
+    <g stroke="#9aa7b5" stroke-width="2" fill="none"><path d="M270 181L550 145"/><path d="M348 318L550 218"/><path d="M400 182L550 286"/></g>
+    <g font-size="20"><text x="565" y="150">Seal contour / シールの輪郭</text><text x="565" y="223">Panel traces / パネルの交線</text><text x="565" y="291">Other included body / その他の対象ボディ</text><text x="565" y="337">No fill or hatch / 塗りつぶし・ハッチなし</text></g>
+    <text x="30" y="367" font-size="18">Line contours, not filled regions / 輪郭線のみを作成。断面領域の塗りつぶしはありません</text>
+  </g>
+</svg>

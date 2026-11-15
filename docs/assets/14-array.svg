@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400" role="img" aria-labelledby="title desc">
+  <title id="title">Inspect one frame, then create the array / まず1点で確認してから全点へ</title>
+  <desc id="desc">Four schematic coordinate frames follow a curved sealing path. Z is tangent to the path, Y is the surface-normal direction, and X completes the frame. Test-first mode creates only the first CSYS.</desc>
+  <defs><marker id="g" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#24835b"/></marker></defs>
+  <rect width="960" height="400" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Test first point only = ON by default / 既定では最初の点のみ作成</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Group the final Datum CSYS features manually / 最終的なデータム座標系は手動でグループ化</text>
+    <path d="M90 295Q480 -15 870 295" fill="none" stroke="#267bb5" stroke-width="4"/>
+    <g stroke="#24835b" stroke-width="3" fill="none" marker-end="url(#g)"><path d="M168 239.2l48-30.5"/><path d="M168 239.2v-63"/><path d="M376 150.8l55-11.65"/><path d="M376 150.8v-63"/><path d="M584 150.8l55 11.65"/><path d="M584 150.8v-63"/><path d="M792 239.2l48 30.5"/><path d="M792 239.2v-63"/></g>
+    <g fill="#ef8c23"><circle cx="168" cy="239.2" r="7"/><circle cx="376" cy="150.8" r="7"/><circle cx="584" cy="150.8" r="7"/><circle cx="792" cy="239.2" r="7"/></g>
+    <g font-size="19"><text x="126" y="295">001</text><text x="348" y="201">002</text><text x="556" y="201">003</text><text x="774" y="308">004</text><text x="220" y="211">Z</text><text x="147" y="169">Y</text></g>
+    <text x="30" y="350" font-size="19">Undo the test before a full rerun / 全点で再実行する前にテスト結果を取り消してください</text>
+    <text x="30" y="379" font-size="18">SPLINE_CSYS_001, 002, … · Only Y/Z shown here / この図ではY・Z軸のみ表示</text>
+  </g>
+</svg>

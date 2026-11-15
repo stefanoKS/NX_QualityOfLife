@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="390" viewBox="0 0 960 390" role="img" aria-labelledby="title desc">
+  <title id="title">Composite curve, three samples, full circle / 複合曲線・3点のサンプル・真円</title>
+  <desc id="desc">A closed loop composed of three equal circular arcs, each of length L/3. Orange samples at L/3, 2L/3 and L define the red full circle. This is a three-point construction, not a best-fit method.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="390" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Composite → Samples → Circle / 複合曲線 → 3点 → 円</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · Equal-arc example / 等弧長の例</text>
+    <g fill="none" stroke-width="5"><path d="M249 216A82 82 0 0 1 126 287" stroke="#267bb5"/><path d="M126 287A82 82 0 0 1 126 145" stroke="#16324f"/><path d="M126 145A82 82 0 0 1 249 216" stroke="#7fb5db"/><circle cx="480" cy="216" r="82" stroke="#267bb5"/><circle cx="793" cy="216" r="82" stroke="#cb3d3d"/></g>
+    <g fill="#ef8c23" stroke="#fff" stroke-width="2"><circle cx="562" cy="216" r="7"/><circle cx="439" cy="287" r="7"/><circle cx="439" cy="145" r="7"/><circle cx="875" cy="216" r="7"/><circle cx="752" cy="287" r="7"/><circle cx="752" cy="145" r="7"/></g>
+    <g font-size="19"><text x="40" y="117">A  Multi-segment / 複数区間</text><text x="353" y="117">B  Arc-length / 弧長位置</text><text x="687" y="117">C  Full circle / 真円</text><text x="480" y="312">L/3</text><text x="351" y="171">2L/3</text><text x="571" y="219">L</text></g>
+    <g stroke="#16324f" stroke-width="2" marker-end="url(#a)"><path d="M285 216h73"/><path d="M603 216h68"/></g>
+    <text x="30" y="361" font-size="20">3 smart samples; not best fit / 関連付け3点による円。全点近似ではありません</text>
+  </g>
+</svg>

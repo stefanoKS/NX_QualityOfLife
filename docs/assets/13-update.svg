@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380" role="img" aria-labelledby="title desc">
+  <title id="title">Move a source point, update the spline / 元の点を移動してスプラインを更新</title>
+  <desc id="desc">An illustrative cubic passes through unchanged P1, P2, P4 and a moved P3. Old curve dashed, updated curve red. Actual NX interpolation can differ; this is not live test evidence.</desc>
+  <rect width="960" height="380" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">The original points remain the parents / 元の点との親子関係を保持</text><text x="30" y="72" font-size="17">ILLUSTRATIVE UPDATE / 更新の説明図 · Actual interpolation may differ / 実際の補間形状とは異なります</text>
+    <path d="M120 260C300 80 660 80 840 260" fill="none" stroke="#9aa7b5" stroke-width="3" stroke-dasharray="7 5"/>
+    <path d="M120 260C300 -2.5 660 245 840 260" fill="none" stroke="#cb3d3d" stroke-width="5"/>
+    <g fill="#ef8c23" stroke="#fff" stroke-width="2"><circle cx="120" cy="260" r="8"/><circle cx="346.667" cy="140" r="8"/><circle cx="613.333" cy="195" r="8"/><circle cx="840" cy="260" r="8"/></g>
+    <path d="M613.333 140v43m-7-8l7 8 7-8" fill="none" stroke="#24835b" stroke-width="3"/>
+    <g font-size="20"><text x="633" y="160">P3 moved / P3を移動</text><text x="308" y="289">Invisible references, no extra visible point features</text><text x="308" y="319">参照点は非表示。可視の点フィーチャは増やしません</text></g>
+    <text x="30" y="357" font-size="18">Illustration only; verify in NX / 説明図です。NXモデルで更新結果を確認してください</text>
+  </g>
+</svg>

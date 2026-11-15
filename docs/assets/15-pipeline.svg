@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460" role="img" aria-labelledby="title desc">
+  <title id="title">Model intersections first, drafting views second / 先にモデル内の交線、その後に図面ビュー</title>
+  <desc id="desc">Source bodies and CSYS feed bounded planes, then associative intersection features, then model curves with inherited layers. The journal switches to Drafting, creates a new sheet and arranges base views. No automatic export.</desc>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#16324f"/></marker></defs>
+  <rect width="960" height="460" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">The 1-5 pipeline / 1-5の処理の流れ</text><text x="30" y="72" font-size="17">FLOW SCHEMATIC / 処理フロー模式図 · Each run creates a new sheet / 実行ごとに新しい図面シートを作成</text>
+    <g fill="#fff" stroke="#16324f" stroke-width="2"><rect x="30" y="110" width="260" height="106" rx="10"/><rect x="350" y="110" width="260" height="106" rx="10"/><rect x="670" y="110" width="260" height="106" rx="10"/><rect x="30" y="296" width="260" height="106" rx="10"/><rect x="350" y="296" width="260" height="106" rx="10"/><rect x="670" y="296" width="260" height="106" rx="10"/></g>
+    <g font-size="21" text-anchor="middle"><text x="160" y="150">Bodies + CSYS</text><text x="160" y="185">ボディ＋データム座標系</text><text x="480" y="150">Bounded XY planes</text><text x="480" y="185">範囲を限定したXY面</text><text x="800" y="150">Intersections</text><text x="800" y="185">関連付け交線フィーチャ</text><text x="160" y="336" fill="#cb3d3d">Model section curves</text><text x="160" y="371">モデル内の断面曲線</text><text x="480" y="336">New drawing sheet</text><text x="480" y="371">新しい図面シート</text><text x="800" y="336">Arranged 1:1 base views</text><text x="800" y="371">1:1のベースビューを配置</text></g>
+    <g fill="none" stroke="#16324f" stroke-width="2" marker-end="url(#a)"><path d="M296 163h46"/><path d="M616 163h46"/><path d="M800 222v34H160v32"/><path d="M296 349h46"/><path d="M616 349h46"/></g>
+    <text x="30" y="440" font-size="19">No sphere, Boolean crop or auto-export / 球・ブーリアン切取り・自動出力はありません</text>
+  </g>
+</svg>

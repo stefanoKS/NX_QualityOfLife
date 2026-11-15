@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="350" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">True arc center references / 円弧・円の真の中心を参照</title>
+  <desc id="desc">A partial arc and two circles produce center points at their analytic centers. The point for a partial arc is not its midpoint.</desc>
+  <rect width="960" height="350" rx="16" fill="#f5f8fc"/>
+  <g font-family="Segoe UI, Yu Gothic, sans-serif" fill="#16324f">
+    <text x="30" y="40" font-size="25" font-weight="700">Arc or circle → Center point / 円弧・円 → 中心点</text><text x="30" y="72" font-size="17">SCHEMATIC / 模式図 · NX arc-center reference, not copied coordinates / NXの中心参照を使用</text>
+    <g fill="none" stroke="#267bb5" stroke-width="4"><path d="M90 208A80 80 0 0 1 250 208"/><circle cx="480" cy="208" r="67"/><circle cx="790" cy="208" r="82"/></g>
+    <g stroke="#9aa7b5" stroke-width="2" stroke-dasharray="5 5"><path d="M170 208v-80M480 208h67M790 208h82"/></g>
+    <g stroke="#ef8c23" stroke-width="3" fill="#ef8c23"><path d="M156 208h28m-14-14v28M466 208h28m-14-14v28M776 208h28m-14-14v28"/><circle cx="170" cy="208" r="5"/><circle cx="480" cy="208" r="5"/><circle cx="790" cy="208" r="5"/></g>
+    <g font-size="19"><text x="75" y="312">ARC_CENTER_001</text><text x="385" y="312">ARC_CENTER_002</text><text x="695" y="312">ARC_CENTER_003</text></g>
+  </g>
+</svg>
