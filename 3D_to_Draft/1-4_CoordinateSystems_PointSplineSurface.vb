@@ -1,4 +1,4 @@
-Option Strict On
+﻿Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Drawing
@@ -24,7 +24,7 @@ Module CoordinateSystems_PointSplineSurface_NX2306
         Dim ui As NXOpen.UI = NXOpen.UI.GetUI()
         Dim part As Part = session.Parts.Work
         If part Is Nothing Then
-            Msg(ui, "Open a work part first.", True)
+            Msg(ui, "Open a work part first. / 作業パートを開いてください。", True)
             Return
         End If
 
@@ -71,7 +71,7 @@ Module CoordinateSystems_PointSplineSurface_NX2306
 
         If groups.Count = 0 OrElse splines.Count = 0 OrElse surfaces.Count = 0 Then
             Msg(ui, "Missing geometry: need a point feature group, a spline, " &
-                "and a surface/body feature in the work part.", True)
+                "and a surface/body feature in the work part." & Environment.NewLine & "作業パートに、点のフィーチャグループ、スプライン、サーフェス／ボディのフィーチャが必要です。", True)
             Return
         End If
         groups.Sort(Function(a, b) String.Compare(a.ToString(), b.ToString(), StringComparison.OrdinalIgnoreCase))
@@ -110,7 +110,7 @@ Module CoordinateSystems_PointSplineSurface_NX2306
             Next
         Next
         If points.Count = 0 Then
-            Msg(ui, "No points found in selected group.", True)
+            Msg(ui, "No points found in selected group. / 選択したグループに点がありません。", True)
             Return
         End If
 
@@ -270,11 +270,11 @@ Friend NotInheritable Class PssPicker
 
     Public Sub New(groups As IList(Of PssChoice), splines As IList(Of PssChoice), surfaces As IList(Of PssChoice))
         MyBase.New()
-        Text = "Associative Datum CSYS: Point + Spline + Surface"
-        Font = New Font("Segoe UI", 10.0F)
+        Text = "Associative Datum CSYS / 関連付けデータム座標系"
+        Font = New Font("Yu Gothic UI", 10.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(560, 388)
-        MinimumSize = New Size(490, 425)
+        ClientSize = New Size(800, 590)
+        MinimumSize = New Size(800, 590)
         StartPosition = FormStartPosition.CenterParent
         FormBorderStyle = FormBorderStyle.FixedDialog
         ShowInTaskbar = False
@@ -287,15 +287,16 @@ Friend NotInheritable Class PssPicker
         panel.RowCount = 10
         panel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100.0F))
         For i As Integer = 0 To 5
-            panel.RowStyles.Add(New RowStyle(SizeType.Absolute, If(i Mod 2 = 0, 26.0F, 38.0F)))
+            panel.RowStyles.Add(New RowStyle(SizeType.Absolute, If(i Mod 2 = 0, 52.0F, 38.0F)))
         Next
-        panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 34.0F))
-        panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 34.0F))
+        panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 56.0F))
+        panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 56.0F))
         panel.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 43.0F))
-        groupBox = AddCombo(panel, "Point feature group (origin):", 0, groups)
-        splineBox = AddCombo(panel, "Spline (closest tangent becomes Z):", 2, splines)
-        surfaceBox = AddCombo(panel, "Surface/body feature (closest normal becomes Y):", 4, surfaces)
+        groupBox = AddCombo(panel, "1. Point feature group (origins)" & Environment.NewLine & "1. 原点となる点のフィーチャグループ", 0, groups)
+        splineBox = AddCombo(panel, "2. Spline (nearest tangent defines Z)" & Environment.NewLine & "2. スプライン（点に最も近い位置の接線をZ軸に使用）", 2, splines)
+        surfaceBox = AddCombo(panel, "3. Surface/body feature (nearest face normal defines Y)" & Environment.NewLine &
+            "3. サーフェス／ボディのフィーチャ（最も近い面の法線からY軸を設定）", 4, surfaces)
         If splineBox.Items.Count > 0 Then splineBox.SelectedIndex = splineBox.Items.Count - 1
         For i As Integer = 0 To surfaceBox.Items.Count - 1
             If surfaceBox.Items(i).ToString().IndexOf("SURFACE", StringComparison.OrdinalIgnoreCase) >= 0 Then
@@ -303,21 +304,23 @@ Friend NotInheritable Class PssPicker
                 Exit For
             End If
         Next
-        testBox = New CheckBox With {.Text = "Test first point only (recommended for first run)", .Checked = True,
+        testBox = New CheckBox With {.Text = "Test first point only (recommended initially); uncheck to process all points." & Environment.NewLine &
+            "最初の点のみテスト（初回は推奨）。全点を処理する場合はチェックを外してください。", .Checked = True,
                                     .Dock = DockStyle.Fill}
         panel.Controls.Add(testBox, 0, 6)
-        flipBox = New CheckBox With {.Text = "Reverse Y (surface normal)", .Dock = DockStyle.Fill}
+        flipBox = New CheckBox With {.Text = "Reverse Y (surface normal)" & Environment.NewLine & "Y軸（面の法線方向）を反転", .Dock = DockStyle.Fill}
         panel.Controls.Add(flipBox, 0, 7)
         Dim info As New System.Windows.Forms.Label With {
-            .Text = "Z follows the spline; Y follows the surface normal projected perpendicular to Z.",
+            .Text = "Z follows the spline; Y is the surface normal projected perpendicular to Z." & Environment.NewLine &
+                "Z軸はスプラインの接線方向、Y軸は面法線をZ軸に垂直な平面へ投影した方向です。",
             .ForeColor = SystemColors.GrayText, .Dock = DockStyle.Fill,
             .TextAlign = ContentAlignment.MiddleLeft}
         panel.Controls.Add(info, 0, 8)
         Dim actions As New FlowLayoutPanel With {.Dock = DockStyle.Fill,
             .FlowDirection = FlowDirection.RightToLeft, .WrapContents = False}
-        Dim cancelBtn As New Button With {.Text = "Cancel", .Size = New Size(100, 32),
+        Dim cancelBtn As New Button With {.Text = "Cancel / キャンセル", .Size = New Size(155, 34),
             .DialogResult = DialogResult.Cancel}
-        Dim createBtn As New Button With {.Text = "Create CSYS", .Size = New Size(115, 32),
+        Dim createBtn As New Button With {.Text = "Create CSYS / 座標系を作成", .Size = New Size(220, 34),
             .DialogResult = DialogResult.OK}
         actions.Controls.Add(cancelBtn)
         actions.Controls.Add(createBtn)

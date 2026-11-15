@@ -22,7 +22,7 @@ Module SplineThroughGroupPoints
         Dim workPart As Part = session.Parts.Work
 
         If workPart Is Nothing Then
-            Message(nxUI, "Open a work part first.", True)
+            Message(nxUI, "Open a work part first. / 作業パートを開いてください。", True)
             Return
         End If
 
@@ -39,7 +39,7 @@ Module SplineThroughGroupPoints
         Next
 
         If groups.Count = 0 Then
-            Message(nxUI, "No named feature groups found in the work part.", True)
+            Message(nxUI, "No named feature groups found in the work part." & Environment.NewLine & "作業パートに名前付きフィーチャグループがありません。", True)
             Return
         End If
 
@@ -67,7 +67,7 @@ Module SplineThroughGroupPoints
         Next
         If matchCount <> 1 Then
             Message(nxUI, "Expected exactly one group named '" & selectedName &
-                    "'. Found: " & matchCount.ToString() & ".", True)
+                    "'. Found: " & matchCount.ToString() & "." & Environment.NewLine & "指定名のグループが1つに特定できません。名前を確認してください。", True)
             Return
         End If
 
@@ -75,7 +75,7 @@ Module SplineThroughGroupPoints
         Dim members() As Feature = Nothing
         selectedGroup.GetMembers(members)
         If members Is Nothing OrElse members.Length = 0 Then
-            Message(nxUI, "This feature group is empty.", True)
+            Message(nxUI, "This feature group is empty. / 選択したフィーチャグループは空です。", True)
             Return
         End If
 
@@ -97,7 +97,7 @@ Module SplineThroughGroupPoints
         If sourcePoints.Count < 4 Then
             Message(nxUI, "A degree-3 spline requires at least four points." &
                     Environment.NewLine & "Group '" & selectedGroup.Name & "' contains " &
-                    sourcePoints.Count.ToString() & " usable point(s).", True)
+                    sourcePoints.Count.ToString() & " usable point(s)." & Environment.NewLine & "3次スプラインには4点以上必要です。グループ内の点を確認してください。", True)
             Return
         End If
 
@@ -191,11 +191,11 @@ Friend NotInheritable Class SplineFeatureGroupPicker
 
     Public Sub New(names As IEnumerable(Of String), defaultName As String)
         MyBase.New()
-        Me.Text = "Spline Through Group Points"
-        Me.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular)
+        Me.Text = "Spline Through Group Points / グループ内の点を通るスプライン"
+        Me.Font = New Font("Yu Gothic UI", 10.0F, FontStyle.Regular)
         Me.AutoScaleMode = AutoScaleMode.Font
-        Me.ClientSize = New Size(460, 190)
-        Me.MinimumSize = New Size(390, 205)
+        Me.ClientSize = New Size(720, 260)
+        Me.MinimumSize = New Size(720, 260)
         Me.StartPosition = FormStartPosition.CenterParent
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -208,13 +208,14 @@ Friend NotInheritable Class SplineFeatureGroupPicker
         layout.ColumnCount = 1
         layout.RowCount = 4
         layout.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100.0F))
-        layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 34.0F))
+        layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 60.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 44.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 42.0F))
 
         Dim prompt As New Label()
-        prompt.Text = "Select a feature group containing points:"
+        prompt.Text = "Select a feature group containing points:" & Environment.NewLine &
+            "点を含むフィーチャグループを選択してください："
         prompt.Dock = DockStyle.Fill
         prompt.TextAlign = ContentAlignment.MiddleLeft
         layout.Controls.Add(prompt, 0, 0)
@@ -234,7 +235,8 @@ Friend NotInheritable Class SplineFeatureGroupPicker
         layout.Controls.Add(groupSelector, 0, 1)
 
         Dim hint As New Label()
-        hint.Text = "Creates one associative, degree-3 spline in navigator order."
+        hint.Text = "Creates one associative, degree-3 spline in feature timestamp order." & Environment.NewLine &
+            "フィーチャのタイムスタンプ順に、点に関連付けられた3次スプラインを1本作成します。"
         hint.Dock = DockStyle.Fill
         hint.TextAlign = ContentAlignment.MiddleLeft
         hint.ForeColor = SystemColors.GrayText
@@ -247,15 +249,15 @@ Friend NotInheritable Class SplineFeatureGroupPicker
         buttons.Margin = New Padding(0)
 
         Dim cancelButton As New Button()
-        cancelButton.Text = "Cancel"
+        cancelButton.Text = "Cancel / キャンセル"
         cancelButton.DialogResult = DialogResult.Cancel
-        cancelButton.Size = New Size(96, 32)
+        cancelButton.Size = New Size(155, 34)
         buttons.Controls.Add(cancelButton)
 
         Dim okButton As New Button()
-        okButton.Text = "OK"
+        okButton.Text = "OK / 実行"
         okButton.DialogResult = DialogResult.OK
-        okButton.Size = New Size(96, 32)
+        okButton.Size = New Size(130, 34)
         buttons.Controls.Add(okButton)
 
         layout.Controls.Add(buttons, 0, 3)

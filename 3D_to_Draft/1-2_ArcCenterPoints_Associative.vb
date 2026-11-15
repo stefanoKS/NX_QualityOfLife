@@ -18,7 +18,7 @@ Module ArcCenterPoints
         Dim workPart As Part = session.Parts.Work
 
         If workPart Is Nothing Then
-            ShowMessage(nxUI, "Open a work part first.", True)
+            ShowMessage(nxUI, "Open a work part first. / 作業パートを開いてください。", True)
             Return
         End If
 
@@ -36,7 +36,7 @@ Module ArcCenterPoints
         Next
 
         If groups.Count = 0 Then
-            ShowMessage(nxUI, "No named feature groups were found in the work part.", True)
+            ShowMessage(nxUI, "No named feature groups were found in the work part." & Environment.NewLine & "作業パートに名前付きフィーチャグループがありません。", True)
             Return
         End If
 
@@ -74,7 +74,7 @@ Module ArcCenterPoints
 
         If matches <> 1 Then
             ShowMessage(nxUI, "Expected exactly one feature group named '" & enteredName & _
-                        "'. Found: " & matches.ToString(), True)
+                        "'. Found: " & matches.ToString() & Environment.NewLine & "指定名のグループが1つに特定できません。名前を確認してください。", True)
             Return
         End If
 
@@ -82,7 +82,7 @@ Module ArcCenterPoints
         Dim members() As Feature = Nothing
         selectedGroup.GetMembers(members)
         If members Is Nothing OrElse members.Length = 0 Then
-            ShowMessage(nxUI, "The selected feature group is empty.", True)
+            ShowMessage(nxUI, "The selected feature group is empty. / 選択したフィーチャグループは空です。", True)
             Return
         End If
 
@@ -105,7 +105,7 @@ Module ArcCenterPoints
 
         If sourceArcs.Count = 0 Then
             ShowMessage(nxUI, "No arc geometry was found directly in '" & _
-                        selectedGroup.Name & "'. Nothing was created.", True)
+                        selectedGroup.Name & "'. Nothing was created." & Environment.NewLine & "選択したグループの直下に円弧・円がありません。何も作成されませんでした。", True)
             Return
         End If
 
@@ -179,11 +179,11 @@ Friend NotInheritable Class FeatureGroupPicker
     Public Sub New(names As IEnumerable(Of String), defaultName As String)
         MyBase.New()
 
-        Me.Text = "Create Arc Center Points"
-        Me.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular)
+        Me.Text = "Create Arc Center Points / 円弧の中心点を作成"
+        Me.Font = New Font("Yu Gothic UI", 10.0F, FontStyle.Regular)
         Me.AutoScaleMode = AutoScaleMode.Font
-        Me.ClientSize = New Size(460, 190)
-        Me.MinimumSize = New Size(390, 205)
+        Me.ClientSize = New Size(720, 260)
+        Me.MinimumSize = New Size(720, 260)
         Me.StartPosition = FormStartPosition.CenterParent
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -196,13 +196,14 @@ Friend NotInheritable Class FeatureGroupPicker
         layout.ColumnCount = 1
         layout.RowCount = 4
         layout.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100.0F))
-        layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 34.0F))
+        layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 60.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 44.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 42.0F))
 
         Dim label As New Label()
-        label.Text = "Select a feature group:"
+        label.Text = "Select a feature group containing arcs/circles:" & Environment.NewLine &
+            "円弧・円を含むフィーチャグループを選択してください："
         label.Dock = DockStyle.Fill
         label.TextAlign = ContentAlignment.MiddleLeft
         layout.Controls.Add(label, 0, 0)
@@ -222,7 +223,8 @@ Friend NotInheritable Class FeatureGroupPicker
         layout.Controls.Add(groupSelector, 0, 1)
 
         Dim hint As New Label()
-        hint.Text = "Select from the list, or type an existing group name."
+        hint.Text = "Select from the list, or type an existing group name." & Environment.NewLine &
+            "一覧から選択するか、既存のグループ名を入力してください。"
         hint.Dock = DockStyle.Fill
         hint.TextAlign = ContentAlignment.MiddleLeft
         hint.ForeColor = SystemColors.GrayText
@@ -235,15 +237,15 @@ Friend NotInheritable Class FeatureGroupPicker
         buttonRow.Margin = New Padding(0)
 
         Dim cancelButton As New Button()
-        cancelButton.Text = "Cancel"
+        cancelButton.Text = "Cancel / キャンセル"
         cancelButton.DialogResult = DialogResult.Cancel
-        cancelButton.Size = New Size(96, 32)
+        cancelButton.Size = New Size(155, 34)
         buttonRow.Controls.Add(cancelButton)
 
         Dim okButton As New Button()
-        okButton.Text = "OK"
+        okButton.Text = "OK / 実行"
         okButton.DialogResult = DialogResult.OK
-        okButton.Size = New Size(96, 32)
+        okButton.Size = New Size(130, 34)
         buttonRow.Controls.Add(okButton)
         layout.Controls.Add(buttonRow, 0, 3)
 

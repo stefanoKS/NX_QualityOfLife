@@ -1,4 +1,4 @@
-Option Strict On
+﻿Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Drawing
@@ -48,7 +48,7 @@ Module CirclesFromCompositeGroups
         Dim ui As NXOpen.UI = NXOpen.UI.GetUI()
         Dim part As Part = session.Parts.Work
         If part Is Nothing Then
-            Alert(ui, "Open a work part first.", True)
+            Alert(ui, "Open a work part first. / 作業パートを開いてください。", True)
             Return
         End If
 
@@ -64,7 +64,7 @@ Module CirclesFromCompositeGroups
             End If
         Next
         If names.Count = 0 Then
-            Alert(ui, "No named feature groups in the work part.", True)
+            Alert(ui, "No named feature groups in the work part. / 作業パートに名前付きフィーチャグループがありません。", True)
             Return
         End If
         names.Sort(StringComparer.OrdinalIgnoreCase)
@@ -87,14 +87,15 @@ Module CirclesFromCompositeGroups
             End If
         Next
         If matches <> 1 Then
-            Alert(ui, "Expected one group named '" & inputName.Trim() & "'. Found: " & matches.ToString(), True)
+            Alert(ui, "Expected one group named '" & inputName.Trim() & "'. Found: " & matches.ToString() &
+                Environment.NewLine & "指定名のグループが1つに特定できません。名前を確認してください。", True)
             Return
         End If
 
         Dim memberArray() As Feature = Nothing
         group.GetMembers(memberArray)
         If memberArray Is Nothing OrElse memberArray.Length = 0 Then
-            Alert(ui, "Group '" & group.Name & "' is empty.", True)
+            Alert(ui, "Group '" & group.Name & "' is empty. / 選択したグループは空です。", True)
             Return
         End If
 
@@ -106,7 +107,8 @@ Module CirclesFromCompositeGroups
         Next
         composites.Sort(Function(a As Feature, b As Feature) a.Timestamp.CompareTo(b.Timestamp))
         If composites.Count = 0 Then
-            Alert(ui, "No unsuppressed Composite Curve features found in '" & group.Name & "'.", True)
+            Alert(ui, "No unsuppressed Composite Curve features found in '" & group.Name & "'." &
+                Environment.NewLine & "選択したグループに抑制されていない複合曲線がありません。", True)
             Return
         End If
 
@@ -440,11 +442,11 @@ Friend NotInheritable Class CompositeGroupPicker
 
     Public Sub New(names As IEnumerable(Of String), defaultName As String)
         MyBase.New()
-        Me.Text = "Circle From Composite Curves"
-        Me.Font = New Font("Segoe UI", 10.0F, FontStyle.Regular)
+        Me.Text = "Circle From Composite Curves / 複合曲線から円を作成"
+        Me.Font = New Font("Yu Gothic UI", 10.0F, FontStyle.Regular)
         Me.AutoScaleMode = AutoScaleMode.Font
-        Me.ClientSize = New Size(460, 192)
-        Me.MinimumSize = New Size(400, 215)
+        Me.ClientSize = New Size(720, 260)
+        Me.MinimumSize = New Size(720, 260)
         Me.StartPosition = FormStartPosition.CenterParent
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -457,13 +459,14 @@ Friend NotInheritable Class CompositeGroupPicker
         layout.ColumnCount = 1
         layout.RowCount = 4
         layout.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100.0F))
-        layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 34.0F))
+        layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 60.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 44.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
         layout.RowStyles.Add(New RowStyle(SizeType.Absolute, 42.0F))
 
         Dim header As New Label()
-        header.Text = "Select feature group containing Composite Curves:"
+        header.Text = "Select a feature group containing Composite Curves:" & Environment.NewLine &
+            "複合曲線を含むフィーチャグループを選択してください："
         header.Dock = DockStyle.Fill
         header.TextAlign = ContentAlignment.MiddleLeft
         layout.Controls.Add(header, 0, 0)
@@ -482,7 +485,8 @@ Friend NotInheritable Class CompositeGroupPicker
         layout.Controls.Add(selector, 0, 1)
 
         Dim hint As New Label()
-        hint.Text = "One full circle per composite; longer disconnected chain wins."
+        hint.Text = "One full circle per composite; uses its longest connected chain." & Environment.NewLine &
+            "複合曲線ごとに円を1つ作成します。分離した曲線がある場合は最長の連続部分を使用します。"
         hint.Dock = DockStyle.Fill
         hint.TextAlign = ContentAlignment.MiddleLeft
         hint.ForeColor = SystemColors.GrayText
@@ -494,14 +498,14 @@ Friend NotInheritable Class CompositeGroupPicker
         buttons.WrapContents = False
         buttons.Margin = New Padding(0)
         Dim cancelBtn As New Button()
-        cancelBtn.Text = "Cancel"
+        cancelBtn.Text = "Cancel / キャンセル"
         cancelBtn.DialogResult = DialogResult.Cancel
-        cancelBtn.Size = New Size(96, 32)
+        cancelBtn.Size = New Size(155, 34)
         buttons.Controls.Add(cancelBtn)
         Dim okBtn As New Button()
-        okBtn.Text = "OK"
+        okBtn.Text = "OK / 実行"
         okBtn.DialogResult = DialogResult.OK
-        okBtn.Size = New Size(96, 32)
+        okBtn.Size = New Size(130, 34)
         buttons.Controls.Add(okBtn)
         layout.Controls.Add(buttons, 0, 3)
         Me.AcceptButton = okBtn
