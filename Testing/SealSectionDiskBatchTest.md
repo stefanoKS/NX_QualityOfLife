@@ -4,9 +4,136 @@ Run **SealSectionDiskBatchTest.vb** in NX Modeling, in the same displayed
 millimeter work part. This is a separate experimental implementation; the
 sphere/Boolean test and read-only diagnostic remain available.
 
-For an already-generated sheet with incomplete curve display, run
-**SealSectionDraftRefreshTest.vb** from that sheet in Drafting. It repairs views
-without regenerating the section geometry; see `SealSectionDraftRefreshTest.md`.
+## Current version: confirmed v5.1.2, outlines deferred
+
+At the user's request, both VB scripts have been restored byte-for-byte from
+the saved, user-confirmed v5.1.2 baseline. The DraftingBody/DraftingCurve filter
+and erase recovery remain, including the fix verified with the previously
+failing feature-group order. The optional outline prompt, reserved-layer-256
+requirement and all drafting-outline creation code have been removed.
+Defaults remain square side 50 mm and circle radius 25 mm. Timing logs and
+source-layer inheritance remain. The separate refresh test remains removed.
+
+V5.5 failed at `ConvertToView` with "Object not qualified to be converted".
+Outline implementation is deferred; no further outline changes are planned.
+The restored code compiles against NX 2406, and hashes match the saved working
+baseline and between both script copies. The sections below are version history.
+
+日本語：ユーザー確認済みのv5.1.2に戻しました。フィーチャグループ順序に関する
+表示消去の修正は維持し、輪郭表示の追加はすべて削除しました。輪郭機能は当面保留です。
+レイヤ256の予約は不要です。正方形50 mm・円の半径25 mm、計測ログ、レイヤ継承は維持します。
+
+## Withdrawn version v5.5: confirmed proxy filter plus drafting outlines
+
+The user confirmed the v5.1.2 filter works; the successful run log is
+`SealSection_20261115_130957_627_117475fb.log`. The filter prevents drafting-view
+representations from entering the model erase list. Model faces, edges and
+curves remain included. It addresses the demonstrated DraftingBody failure;
+it does not impose a feature-group order or promise a performance improvement.
+
+V5.5 preserves the confirmed isolation, recovery, base-view creation and cutting
+boundary routines unchanged. An English/Japanese Yes/No/Cancel prompt defaults
+to **Yes** for outlines. Layer **256 must be empty and not the work layer**;
+otherwise the journal stops before model changes with an explanation.
+
+All section views are created, isolated, updated and checked first. Only then
+does the script add four square lines or one circle for each completed sector.
+It maps the projected CSYS center into the drawing view, creates the outline
+and converts each new curve to a view-dependent drawing object. The new objects
+are never fed into the section erase loop. Layer 256 is enabled in the target
+view; length, view ownership and the projected CSYS grid position are checked.
+The same batch undo mark covers failures in this final outline pass.
+
+The outlines are nonparametric drafting geometry: view dependence is intended
+to keep them with the view, but they are **not expression-linked to CSYS/size
+changes**. Regenerate after those changes. Existing layer-256 geometry is never
+silently deleted; free that reserved layer before another outlined batch, or
+choose No. Defaults remain square side 50 mm and circle radius 25 mm.
+
+日本語：確認済みの表示分離修正を維持し、全ビューの作成・更新完了後に輪郭を追加します。
+既定は「はい」です。レイヤ256を空け、別の作業レイヤを使用してください。
+輪郭はビューに属する図面曲線で、CSYSや切断寸法との自動連動はありません。
+これらを変更した場合は図面を再作成してください。
+
+Compilation against NX 2406 passes. Source comparison verifies that the confirmed
+core routines were not changed. The new outline pass still requires a live NX
+test: use two rotated CSYS, verify square and circle output, move a view, update
+the drawing and check DWG/DXF output. Runtime checks are not a substitute for
+visual verification. The historical rollback notes below describe older builds.
+
+## Version 5.1.2: drafting representation filter (confirmed working)
+
+The diagnostic run `SealSection_20261115_130335_347_d35c0670.log` isolated the
+failing object: `NXOpen.Drawings.DraftingBody`, tag 94734, layer 10. The candidate
+list contained one drafting body at sector 1 and two at sector 2. An individual
+erase of that drawing representation failed with NX 630035. Layer enumeration
+therefore cannot be treated as a collection of model objects only.
+
+V5.1.2 filters `Drawings.DraftingBody` and `Drawings.DraftingCurve` before building
+the model erase list and logs their count. Original faces, edges, curves and
+other model candidates remain included. The recovery/diagnostic path is retained.
+No feature reordering, global body blanking or outline additions are introduced.
+The model bodies still use the existing view-builder exclusions.
+
+This directly addresses the object type demonstrated by the diagnostic. It does
+not yet prove that every feature order works, or explain exactly why reordering
+SURFACE avoids the problem. Both script copies compile and match; test the
+previously failing order and check visual isolation before restoring outlines.
+
+日本語：診断により、消去対象に図面ビューのDraftingBodyが混入していたことを確認しました。
+図面表現のDraftingBody・DraftingCurveだけを対象外にし、元の面・エッジ・曲線は維持します。
+フィーチャの順序は変更しません。以前失敗した順序で動作と表示分離を確認してください。
+
+## Version 5.1.1: erase recovery and object-level diagnostics
+
+The user observed that moving SURFACE to the top makes generation succeed.
+The failed-order log reports NX 630035 in `ViewDependentDisplayManager.Erase`
+at sector 2, after section generation, with no outline code running. This is
+the same failing operation as in the outline experiments. Feature reordering
+can affect database enumeration/update state; the exact offending object or
+dependency has not yet been established. The journal does not reorder features
+or require SURFACE to be first. CSYS timestamp sorting is unchanged.
+
+The exclusion list still includes faces and edges and is deduplicated by tag.
+The log now records the selected group timestamps and erase candidate counts by
+runtime type for each view. An invisible undo mark surrounds each erase attempt.
+For NX 630035 only, the failed attempt is undone before retrying both halves of
+the object array. All candidates must succeed; none are silently skipped. If a
+single object fails, `ERASE FAILED OBJECT` identifies its type, tag, layer,
+journal identifier and owning body where applicable. The complete batch then
+rolls back. Other error codes propagate without this retry. Recovery may be
+slower on a failing batch; this is not a performance optimization.
+
+This can recover from a multi-object erase failure, or identify the specific
+object that still needs a fix. It is not proof that feature-order dependence is
+resolved. Compiled against NX 2406; live verification is outstanding. Test with
+SURFACE in the previously failing position first and retain the new log. Confirm
+visual isolation before retrying any outline addition. Outlines remain disabled.
+
+日本語：SURFACEグループの位置で結果が変わる問題を調査するため、表示消去に失敗した
+処理を取り消してから対象を分割し、全オブジェクトの消去を再試行します。
+消去できないオブジェクトは省略せず、識別情報をログに出して一括処理を取り消します。
+フィーチャの順序は変更しません。輪郭追加はまだ無効です。
+
+## Baseline rollback history
+
+All outline experiments and visibility optimizations have been removed from both
+VB scripts. `3D_to_Draft/1-5_Drafting.vb` is an exact copy of this journal.
+The code matches the committed v5.1 generator apart from the requested default
+values and explanatory text: square side 50 mm and circle radius 25 mm.
+Timing logs and inherited source layers remain. Cutting boundaries are hidden;
+there is no outline prompt or reserved layer. The removed refresh test has not
+been restored; references to it below are historical only.
+
+The latest failure occurred during sector-2 isolation, before drafting outlines
+were created. This rollback restores the previously successful implementation;
+it does not establish that the same model/session will now run successfully.
+If the error recurs, retain the log and investigate the failing erase objects
+without adding further outline changes to this baseline.
+
+日本語：輪郭表示の追加と高速化の変更をすべて取り消しました。既定値は正方形の一辺
+50 mm、円の半径25 mmです。計測ログと元ボディのレイヤ継承は維持します。
+輪郭は非表示です。同じモデルでの再実行成功を保証するものではありません。
 
 ## Version 5.1: automatic timing log / 自動処理時間ログ
 
@@ -67,11 +194,11 @@ The filename remains **SealSectionDiskBatchTest.vb**. After choosing the source
 and CSYS groups, choose **Square / 正方形** (first and selected by default) or
 **Circle / 円** (second). The choice applies to every sector in the batch.
 
-- Square asks for the **full side length / 一辺の長さ**, default **5 mm**.
+- Square asks for the **full side length / 一辺の長さ**, default **50 mm**.
   Four associative lines connect smart corner points at local CSYS coordinates
   `(±W/2, ±W/2, 0)`. A Bounded Plane fills the loop. Its center is the CSYS origin,
   and its edges follow the CSYS X/Y axes as the CSYS moves or rotates.
-- Circle asks for the **radius / 半径**, default **30 mm**. It retains the
+- Circle asks for the **radius / 半径**, default **25 mm**. It retains the
   previously working associative circle and circular Bounded Plane construction.
 
 For 120 mm square width, X and Y each range from -60 to +60 mm. A radius-60 circle
@@ -224,7 +351,7 @@ as in the requested workflow. It would need adjustment for an offset plane.
 2. CSYS feature group, for example **CSYS**. All active Datum CSYS features are
    sorted by ascending feature timestamp.
 3. Cutting shape: **Square / 正方形** (default), then **Circle / 円**.
-4. Square full side length, default **5 mm**, or circle radius, default **30 mm**.
+4. Square full side length, default **50 mm**, or circle radius, default **25 mm**.
 5. Drawing width, default **5000 mm**.
 6. Drawing height, default **5000 mm**.
 7. Gap between sectors and at sheet edges, default **10 mm**.

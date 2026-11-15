@@ -45,6 +45,7 @@ Module SealSectionDiskBatchTest
                 "手順2：データム座標系（CSYS）のフィーチャグループを選択")
             If sectors Is Nothing Then Return
             timing.Info("Source group=" & surfaces.Name & "; CSYS group=" & sectors.Name)
+            Report("Selected group timestamps: source=" & surfaces.Timestamp.ToString() & "; CSYS=" & sectors.Timestamp.ToString())
             Dim bodyList As New List(Of Body)()
             Dim bodyTags As New List(Of Tag)()
             Dim sourceReport As New List(Of String)()
@@ -77,10 +78,10 @@ Module SealSectionDiskBatchTest
             Dim gap As Double
             If shape = WindowShape.Square Then
                 If Not ReadNumber("Step 4 - Square full side length in mm (not half-width)" & Environment.NewLine &
-                    "手順4：正方形の一辺の長さ（mm、半幅ではありません）", "5", False, size) Then Return
+                    "手順4：正方形の一辺の長さ（mm、半幅ではありません）", "50", False, size) Then Return
             Else
                 If Not ReadNumber("Step 4 - Circle radius in mm (not diameter)" & Environment.NewLine &
-                    "手順4：円の半径（mm、直径ではありません）", "30", False, size) Then Return
+                    "手順4：円の半径（mm、直径ではありません）", "25", False, size) Then Return
             End If
             If Not ReadNumber("Step 5 - Drawing width in mm" & Environment.NewLine & "手順5：図面の幅（mm）", "5000", False, width) Then Return
             If Not ReadNumber("Step 6 - Drawing height in mm" & Environment.NewLine & "手順6：図面の高さ（mm）", "5000", False, height) Then Return
@@ -102,7 +103,7 @@ Module SealSectionDiskBatchTest
             Dim columns As Integer = CInt(Math.Min(columnsFit, datums.Count))
             Dim rows As Integer = CInt(Math.Ceiling(CDbl(datums.Count) / columns))
             session.ListingWindow.Open()
-            Report("=== DISK SECTION BATCH TEST v5.1 (SQUARE / CIRCLE / TIMING LOG) ===")
+            Report("=== DISK SECTION BATCH TEST v5.1.2 (DRAFTING PROXY FILTER / TIMING LOG) ===")
             Report("Boundary: " & shape.ToString() & "; " &
                 If(shape = WindowShape.Square, "full side / 一辺 = ", "radius / 半径 = ") & size.ToString("R", CultureInfo.InvariantCulture) & " mm; center = CSYS origin, plane = CSYS XY.")
             timing.Info("Drawing width=" & width.ToString("R", CultureInfo.InvariantCulture) & "; height=" & height.ToString("R", CultureInfo.InvariantCulture) &
@@ -898,24 +899,102 @@ Module SealSectionDiskBatchTest
                 If Not layers.Contains(curve.Layer) Then layers.Add(curve.Layer)
             Next
             Dim excluded As New List(Of DisplayableObject)()
+            Dim excludedTags As New Dictionary(Of Tag, Boolean)()
+            Dim typeCounts As New SortedDictionary(Of String, Integer)(StringComparer.Ordinal)
+            Dim drawingProxyCount As Integer = 0
             Using listTiming As IDisposable = Perf("View.ExclusionList / 非表示対象の収集")
                 For Each number As Integer In layers
                     For Each item As NXObject In part.Layers.GetAllObjectsOnLayer(number)
+                        ' Layer enumeration also returns representations from drawing views.
+                        ' They are not model geometry to erase in another member view.
+                        ' Confirmed failure: sector 2, DraftingBody, NX 630035.
+                        If TypeOf item Is NXOpen.Drawings.DraftingBody OrElse TypeOf item Is NXOpen.Drawings.DraftingCurve Then
+                            drawingProxyCount += 1
+                            Continue For
+                        End If
                         Dim displayable As DisplayableObject = TryCast(item, DisplayableObject)
                         If displayable Is Nothing OrElse TypeOf displayable Is Body OrElse keep.ContainsKey(displayable.Tag) Then Continue For
+                        If displayable.Tag = Tag.Null Then Throw New InvalidOperationException("Layer enumeration returned a null-tag " & displayable.GetType().FullName & " on layer " & number.ToString())
+                        If excludedTags.ContainsKey(displayable.Tag) Then Continue For
+                        excludedTags.Add(displayable.Tag, True)
                         excluded.Add(displayable)
+                        Dim typeName As String = displayable.GetType().FullName
+                        If Not typeCounts.ContainsKey(typeName) Then typeCounts.Add(typeName, 0)
+                        typeCounts(typeName) += 1
                     Next
                 Next
             End Using
+            Report("Drafting representations excluded from model erase list: " & drawingProxyCount.ToString() & "; " & perfContext)
+            For Each entry As KeyValuePair(Of String, Integer) In typeCounts
+                Report("Erase candidates: " & perfContext & "; " & entry.Key & "; count=" & entry.Value.ToString())
+            Next
             ' Erase is a persistent display edit in THIS view, not a geometry deletion
             ' or a global Blank(). Keep the inherited numeric layers on the curves.
             view.DependentDisplay.RemoveErasureOnObjectAndSubobjects(ownObjects.ToArray(), False)
             Using callTiming As IDisposable = Perf("View.Erase / ビュー内の非表示適用")
-                If excluded.Count > 0 Then view.DependentDisplay.Erase(excluded.ToArray())
+                If excluded.Count > 0 Then EraseWithRecovery(view, excluded.ToArray(), 0)
             End Using
             Report("View isolation: " & ownObjects.Count.ToString() &
                 " sector curves; " & excluded.Count.ToString() & " other objects erased in this view.")
         End Using
+    End Sub
+
+    Private Function EraseObjectDescription(obj As DisplayableObject) As String
+        If obj Is Nothing Then Return "Nothing"
+        Dim description As String = obj.GetType().FullName & "; tag=" & obj.Tag.ToString()
+        Try
+            description &= "; layer=" & obj.Layer.ToString() & "; identifier=" & obj.JournalIdentifier
+            Dim face As Face = TryCast(obj, Face)
+            Dim edge As Edge = TryCast(obj, Edge)
+            Dim owner As Body = Nothing
+            If face IsNot Nothing Then owner = face.GetBody()
+            If edge IsNot Nothing Then owner = edge.GetBody()
+            If owner IsNot Nothing Then description &= "; owner body=" & owner.JournalIdentifier
+        Catch metadataError As Exception
+            description &= "; metadata unavailable: " & metadataError.Message
+        End Try
+        Return description
+    End Function
+
+    Private Sub EraseWithRecovery(view As NXOpen.Drawings.DraftingView, objects As DisplayableObject(), depth As Integer)
+        ' A failed NX erase can have made partial display edits. Undo that attempt
+        ' before retrying. Successful subgroups remain; the main batch mark still
+        ' rolls everything back if ANY subgroup cannot be erased.
+        Dim session As Session = NXOpen.Session.GetSession()
+        Dim mark As Session.UndoMarkId = session.SetUndoMark(Session.MarkVisibility.Invisible, "Sector erase attempt")
+        Dim split As Boolean = False
+        Try
+            For Each obj As DisplayableObject In objects
+                If obj Is Nothing OrElse obj.Tag = Tag.Null Then Throw New InvalidOperationException(
+                    "Invalid erase candidate: " & EraseObjectDescription(obj))
+            Next
+            view.DependentDisplay.Erase(objects)
+        Catch ex As Exception
+            ' Do not retry after a failed rollback; it would leave uncertain state.
+            session.UndoToMark(mark, Nothing)
+            Dim nxError As NXException = TryCast(ex, NXException)
+            If nxError Is Nothing OrElse nxError.ErrorCode <> 630035 Then Throw
+            If objects.Length = 1 Then
+                Dim description As String = EraseObjectDescription(objects(0))
+                Report("ERASE FAILED OBJECT: " & perfContext & "; view=" & view.Name & "; " & description)
+                Throw New InvalidOperationException("Cannot isolate this drawing view. Failed erase object: " & description &
+                    Environment.NewLine & "No object was skipped; the batch will be rolled back. / オブジェクトを省略せず、一括処理を取り消します。", ex)
+            End If
+            Report("Erase NX 630035: attempt rolled back; retrying all " & objects.Length.ToString() &
+                " objects in two groups; depth=" & depth.ToString() & "; " & perfContext)
+            split = True
+        Finally
+            session.DeleteUndoMark(mark, Nothing)
+        End Try
+        If Not split Then Return
+        Dim middle As Integer = objects.Length \ 2
+        Dim first(middle - 1) As DisplayableObject
+        Dim second(objects.Length - middle - 1) As DisplayableObject
+        Array.Copy(objects, 0, first, 0, first.Length)
+        Array.Copy(objects, middle, second, 0, second.Length)
+        EraseWithRecovery(view, first, depth + 1)
+        EraseWithRecovery(view, second, depth + 1)
+        Report("Erase recovery completed for " & objects.Length.ToString() & " objects; depth=" & depth.ToString())
     End Sub
 
     Private Sub VerifySectorCurves(view As NXOpen.Drawings.DraftingView, curves As List(Of Curve))
@@ -1074,15 +1153,15 @@ Friend NotInheritable Class SealBoundaryShapePicker
 
     Private Sub ExplainShape(sender As Object, e As EventArgs)
         If IsSquare Then
-            explanation.Text = "Enter the FULL side length next (default: 5 mm). Edges follow the CSYS X/Y axes." & Environment.NewLine &
-                "次に一辺の全長を入力します（既定：5 mm）。辺はCSYSのX軸・Y軸に平行です。" & Environment.NewLine & Environment.NewLine &
-                "5 mm means X/Y = -2.5 to +2.5 mm, centered on the CSYS origin." & Environment.NewLine &
-                "5 mmの場合、CSYS原点を中心にX/Y方向は各-2.5～+2.5 mmです。"
+            explanation.Text = "Enter the FULL side length next (default: 50 mm). Edges follow the CSYS X/Y axes." & Environment.NewLine &
+                "次に一辺の全長を入力します（既定：50 mm）。辺はCSYSのX軸・Y軸に平行です。" & Environment.NewLine & Environment.NewLine &
+                "50 mm means X/Y = -25 to +25 mm, centered on the CSYS origin." & Environment.NewLine &
+                "50 mmの場合、CSYS原点を中心にX/Y方向は各-25～+25 mmです。"
         Else
-            explanation.Text = "Enter the RADIUS next (default: 30 mm), not the diameter." & Environment.NewLine &
-                "次に半径を入力します（既定：30 mm）。直径ではありません。" & Environment.NewLine & Environment.NewLine &
-                "A radius of 30 mm gives a 60 mm diameter. Only geometry within that distance is included." & Environment.NewLine &
-                "半径30 mmの場合、直径は60 mmです。CSYS原点から半径以内の範囲を切断します。"
+            explanation.Text = "Enter the RADIUS next (default: 25 mm), not the diameter." & Environment.NewLine &
+                "次に半径を入力します（既定：25 mm）。直径ではありません。" & Environment.NewLine & Environment.NewLine &
+                "A radius of 25 mm gives a 50 mm diameter. Only geometry within that distance is included." & Environment.NewLine &
+                "半径25 mmの場合、直径は50 mmです。CSYS原点から半径以内の範囲を切断します。"
         End If
     End Sub
 End Class
