@@ -499,7 +499,7 @@ A group with direct point-bearing features, an actual **NX spline**, and a featu
 - [ ] Desired source points and spline exist; points are sensibly near the path.
 - [ ] Selected surface/body feature has the intended nearest faces.
 - [ ] Tangents and normals are independent, not nearly parallel.
-- [ ] Leave **Test first point only** on for the first run.
+- [ ] All points are processed by default; optionally enable **Test first point only** for a trial.
 
 ### 5. Step-by-step usage
 
@@ -507,9 +507,9 @@ A group with direct point-bearing features, an actual **NX spline**, and a featu
 2. Select **Point feature group (origins)**.
 3. Select **Spline (nearest tangent defines Z)**.
 4. Select **Surface/body feature (nearest face normal defines Y)**.
-5. Initially leave **Test first point only** checked (**default ON**). **Reverse Y** is unchecked by default.
+5. **Test first point only** defaults **OFF** (all points). Both flip controls default OFF; enable the test option only for a one-point trial.
 6. Choose **Create CSYS** and inspect the first frame and Listing Window.
-7. If Y faces the wrong way, undo the test and retry with **Reverse Y** checked.
+7. Select **Reverse Y and X; keep Z** or **Reverse X and Z; keep Y** as needed. Both checked reverses Y/Z while keeping X. The dialog previews the resulting signs. Undo earlier results before recreating them.
 8. Undo the test result before running all points, then uncheck **Test first point only** and run again. Manually group the final CSYS features for 1-5.
 
 **Selection defaults:** first displayed point group (sorted by display text); latest-timestamp spline; first displayed surface/body feature, preferring a display name containing `SURFACE` if present. Always verify them—these are convenience defaults, not automatic design-intent recognition.
@@ -529,6 +529,7 @@ Let **Z** be the unit tangent and **n** the chosen face normal (reversed when re
 - **Y = normalize(n − (n·Z)Z)**: remove n's component along Z, then normalize.
 - **X = Y × Z**, hence **X × Y = Z**: a right-handed frame.
 - Reversing n flips **Y and X**, not the primary Z tangent. If n is already perpendicular to Z, no projection-direction change is needed.
+- The new X/Z reversal changes the associative tangent's sense: X and Z reverse while Y stays unchanged. Combining it with the existing Y/X reversal reverses Y and Z only. All four combinations remain right-handed; reversing all three axes would not.
 
 ### 8. Associativity and update behavior
 
@@ -541,7 +542,7 @@ Smart directions, transform and Datum CSYS retain references to the original poi
 | Missing geometry / empty selector | Check direct point group members, an NX spline entity and a feature actually producing faces. Suppressed/unusable candidates are omitted. |
 | Near-parallel tangent and face normal | Choose a suitable reference surface/path or correct degenerate geometry. The code rejects a normalized absolute dot product above 0.999 (also checks zero vectors); Reverse Y does not cure parallelism. |
 | Inconsistent Y senses | Inspect nearest-face normals along the whole path; test Reverse Y and check all frames. |
-| Only one CSYS | Expected with the default test option. Undo it before the full run to avoid a duplicate first station. |
+| Only one CSYS | Check whether the optional one-point test was enabled or the group contains only one point. Test mode defaults OFF. Undo trial results before the full run. |
 | Creation/update error | Read the failed stage in the Listing Window. The operation attempts a full rollback; verify Undo history if it reports rollback failure. |
 
 ### 10. Limitations
@@ -582,7 +583,7 @@ Compare the initial [inputs](assets/14-inputs.svg) with the array. Check **Z tan
 - [ ] 必要な元の点とスプラインがあり、点が経路に対して適切な位置にある。
 - [ ] 選んだ面フィーチャの最近接面が意図どおりである。
 - [ ] 接線と法線がほぼ平行でなく、独立している。
-- [ ] 最初は**最初の点のみテスト**を有効にしておく。
+- [ ] 既定では全点を処理します。1点だけ試す場合は**最初の点のみテスト**を有効にします。
 
 ### 5. 操作手順
 
@@ -590,9 +591,9 @@ Compare the initial [inputs](assets/14-inputs.svg) with the array. Check **Z tan
 2. **原点となる点のフィーチャグループ**を選びます。
 3. **最近点の接線をZ軸に使用するスプライン**を選びます。
 4. **最近接面の法線からY軸を設定するサーフェス／ボディのフィーチャ**を選びます。
-5. 最初は**Test first point only**を有効にします（**既定ON**）。**Reverse Y**は既定では無効です。
+5. **Test first point only**は**既定OFF**（全点処理）です。2つの軸反転も既定OFFです。1点だけ試す場合のみテストを有効にします。
 6. **Create CSYS／座標系を作成**を押し、最初の座標系と情報ウィンドウを確認します。
-7. Yの向きが逆ならテストを取り消し、**Reverse Y**を有効にして試します。
+7. 必要に応じて**Y・X反転／Z維持**、または**X・Z反転／Y維持**を選びます。両方オンならY・Zが反転し、Xは維持されます。軸の符号はダイアログに表示されます。再作成前に前回の結果を取り消してください。
 8. 全点を処理する前にテスト結果を取り消し、**Test first point only**を無効にして実行します。最終的な座標系を1-5用に手動でグループ化します。
 
 **選択の既定値：** 点グループは表示文字列順の先頭、スプラインは最新タイムスタンプ、面は表示順の先頭ですが、表示名に`SURFACE`があれば優先します。設計意図を自動判別するものではないため、必ず確認してください。
@@ -612,6 +613,7 @@ Compare the initial [inputs](assets/14-inputs.svg) with the array. Check **Z tan
 - **Y = normalize(n − (n·Z)Z)**：法線のZ方向成分を除去し、単位化します。
 - **X = Y × Z**、したがって**X × Y = Z**となる右手座標系です。
 - nを反転すると**YとXが反転**します。基準のZ接線は変わりません。nとZが既に直交していれば、投影による方向の変更は不要です。
+- 新しいX・Z反転は関連付けされた接線の向きを変え、Yを維持します。従来のY・X反転と併用するとY・Zだけが反転します。全4通りで右手系を維持します（3軸すべての反転は左手系になります）。
 
 ### 8. 関連付けと更新
 
@@ -624,7 +626,7 @@ Compare the initial [inputs](assets/14-inputs.svg) with the array. Check **Z tan
 | 必要形状がない・一覧が空 | グループ直下の点、NXスプライン、面を生成するフィーチャを確認します。抑制・使用不可の候補は一覧に出ません。 |
 | 接線と面法線がほぼ平行 | 適切な基準面・経路を選ぶか、縮退形状を修正します。コードは正規化した内積の絶対値が0.999を超える場合とゼロ方向を拒否します。Y反転だけでは平行状態は解消しません。 |
 | Yの向きが揃わない | 経路全体の最近接面と法線を確認し、Y反転を試して全点を確認します。 |
-| 座標系が1つだけ | 既定のテストモードでは正常です。最初の点を重複させないよう、取り消してから全点を実行します。 |
+| 座標系が1つだけ | 1点テストが有効か、グループ内の点が1つだけか確認します。テストは既定OFFです。試行結果は全点実行前に取り消してください。 |
 | 作成・更新エラー | 情報ウィンドウで失敗した段階を確認します。処理全体の取消しを試みますが、取消し失敗の表示があれば履歴も確認してください。 |
 
 ### 10. 制約

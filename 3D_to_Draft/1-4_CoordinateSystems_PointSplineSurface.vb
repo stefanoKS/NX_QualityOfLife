@@ -17,6 +17,9 @@ Imports NXOpenUI
 ' parents; nothing is built from frozen XYZ/vector coordinates.
 ' NOTE: when surface normal is not perpendicular to spline tangent, NX
 ' orthogonalizes the Y axis. Z remains the primary tangent direction.
+' Reverse Y: negate Y and X, keeping Z (original behavior).
+' Reverse X while holding Y: reverse tangent Z; NX also negates X.
+' Both: negate Y and Z, keeping X. All combinations remain right-handed.
 '
 Module CoordinateSystems_PointSplineSurface_NX2306
     Sub Main()
@@ -81,8 +84,9 @@ Module CoordinateSystems_PointSplineSurface_NX2306
         Dim groupChoice As PssChoice = Nothing
         Dim splineChoice As PssChoice = Nothing
         Dim surfaceChoice As PssChoice = Nothing
-        Dim testOnly As Boolean = True
+        Dim testOnly As Boolean = False
         Dim reverseY As Boolean = False
+        Dim reverseXHoldingY As Boolean = False
         Using dialog As New PssPicker(groups, splines, surfaces)
             NXOpenUI.FormUtilities.SetApplicationIcon(dialog)
             NXOpenUI.FormUtilities.ReparentForm(dialog)
@@ -92,6 +96,7 @@ Module CoordinateSystems_PointSplineSurface_NX2306
             surfaceChoice = dialog.SurfaceChoice
             testOnly = dialog.TestOnly
             reverseY = dialog.ReverseY
+            reverseXHoldingY = dialog.ReverseXHoldingY
         End Using
         If groupChoice Is Nothing OrElse splineChoice Is Nothing OrElse surfaceChoice Is Nothing Then Return
 
@@ -121,6 +126,7 @@ Module CoordinateSystems_PointSplineSurface_NX2306
         listing.WriteLine("=== ASSOC. CSYS FROM POINT / SPLINE / SURFACE ===")
         listing.WriteLine("Group=" & group.Name & "  spline=" & splineChoice.ToString())
         listing.WriteLine("Surface=" & surfaceChoice.ToString())
+        listing.WriteLine("Axis signs relative to unflipped CSYS: " & AxisSigns(reverseY, reverseXHoldingY))
         Dim progress As String = "Preparation"
         Dim made As Integer = 0
         Try
@@ -142,7 +148,7 @@ Module CoordinateSystems_PointSplineSurface_NX2306
                 progress = "Creating tangent at point " & (i + 1).ToString()
                 Dim tangent As NXOpen.Direction = part.Directions.CreateDirectionOnPointParentCurve(
                     sourcePoint, CType(spline, NXOpen.IBaseCurve),
-                    NXOpen.Direction.OnCurveOption.Tangent, Sense.Forward,
+                    NXOpen.Direction.OnCurveOption.Tangent, If(reverseXHoldingY, Sense.Reverse, Sense.Forward),
                     SmartObject.UpdateOption.WithinModeling)
 
                 progress = "Creating closest surface normal at point " & (i + 1).ToString()
@@ -194,7 +200,9 @@ Module CoordinateSystems_PointSplineSurface_NX2306
             If errors <> 0 Then Throw New InvalidOperationException("Model update reported " & errors & " errors.")
             Msg(ui, "Created " & made.ToString() & " associative datum CSYS feature(s)." &
                 Environment.NewLine & If(testOnly, "TEST MODE: first point only.", "All points processed.") &
-                Environment.NewLine & "Origin=point; Z=spline tangent; Y=surface normal (orthogonalized).", False)
+                Environment.NewLine & "Origin=point; Z=signed spline tangent; Y=signed surface normal (orthogonalized)." &
+                Environment.NewLine & "原点＝点、Z＝符号付き接線、Y＝符号付き面法線（直交化）。" &
+                Environment.NewLine & AxisSigns(reverseY, reverseXHoldingY), False)
         Catch ex As Exception
             listing.WriteLine("FAILED during " & progress & ": " & ex.ToString())
             Try
@@ -206,6 +214,11 @@ Module CoordinateSystems_PointSplineSurface_NX2306
                 Environment.NewLine & "Changes rolled back; see Listing Window.", True)
         End Try
     End Sub
+
+    Friend Function AxisSigns(reverseY As Boolean, reverseXHoldingY As Boolean) As String
+        Return "X=" & If(reverseY Xor reverseXHoldingY, "-", "+") &
+            ", Y=" & If(reverseY, "-", "+") & ", Z=" & If(reverseXHoldingY, "-", "+")
+    End Function
 
     Private Sub Msg(ui As NXOpen.UI, text As String, err As Boolean)
         ui.NXMessageBox.Show("Point / Spline / Surface CSYS",
@@ -241,6 +254,8 @@ Friend NotInheritable Class PssPicker
     Private ReadOnly surfaceBox As ComboBox
     Private ReadOnly testBox As CheckBox
     Private ReadOnly flipBox As CheckBox
+    Private ReadOnly flipXBox As CheckBox
+    Private ReadOnly axisInfo As System.Windows.Forms.Label
 
     Public ReadOnly Property GroupChoice As PssChoice
         Get
@@ -267,14 +282,19 @@ Friend NotInheritable Class PssPicker
             Return flipBox.Checked
         End Get
     End Property
+    Public ReadOnly Property ReverseXHoldingY As Boolean
+        Get
+            Return flipXBox.Checked
+        End Get
+    End Property
 
     Public Sub New(groups As IList(Of PssChoice), splines As IList(Of PssChoice), surfaces As IList(Of PssChoice))
         MyBase.New()
         Text = "Associative Datum CSYS / 関連付けデータム座標系"
         Font = New Font("Yu Gothic UI", 10.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 590)
-        MinimumSize = New Size(800, 590)
+        ClientSize = New Size(820, 710)
+        MinimumSize = New Size(820, 710)
         StartPosition = FormStartPosition.CenterParent
         FormBorderStyle = FormBorderStyle.FixedDialog
         ShowInTaskbar = False
@@ -284,11 +304,12 @@ Friend NotInheritable Class PssPicker
         panel.Dock = DockStyle.Fill
         panel.Padding = New Padding(15)
         panel.ColumnCount = 1
-        panel.RowCount = 10
+        panel.RowCount = 11
         panel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100.0F))
         For i As Integer = 0 To 5
             panel.RowStyles.Add(New RowStyle(SizeType.Absolute, If(i Mod 2 = 0, 52.0F, 38.0F)))
         Next
+        panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 56.0F))
         panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 56.0F))
         panel.RowStyles.Add(New RowStyle(SizeType.Absolute, 56.0F))
         panel.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
@@ -304,18 +325,23 @@ Friend NotInheritable Class PssPicker
                 Exit For
             End If
         Next
-        testBox = New CheckBox With {.Text = "Test first point only (recommended initially); uncheck to process all points." & Environment.NewLine &
-            "最初の点のみテスト（初回は推奨）。全点を処理する場合はチェックを外してください。", .Checked = True,
+        testBox = New CheckBox With {.Text = "Test first point only (off by default: process all points)." & Environment.NewLine &
+            "最初の点のみテスト（既定はオフ：全点を処理します）。", .Checked = False,
                                     .Dock = DockStyle.Fill}
         panel.Controls.Add(testBox, 0, 6)
-        flipBox = New CheckBox With {.Text = "Reverse Y (surface normal)" & Environment.NewLine & "Y軸（面の法線方向）を反転", .Dock = DockStyle.Fill}
+        flipBox = New CheckBox With {.Text = "Reverse Y and X; keep Z (original flip)" & Environment.NewLine &
+            "Y軸（面法線）とX軸を反転、Z軸は維持（従来の反転）", .Dock = DockStyle.Fill}
         panel.Controls.Add(flipBox, 0, 7)
-        Dim info As New System.Windows.Forms.Label With {
-            .Text = "Z follows the spline; Y is the surface normal projected perpendicular to Z." & Environment.NewLine &
-                "Z軸はスプラインの接線方向、Y軸は面法線をZ軸に垂直な平面へ投影した方向です。",
+        flipXBox = New CheckBox With {.Text = "Reverse X and Z; keep Y" & Environment.NewLine &
+            "X軸とZ軸（接線方向）を反転、Y軸は維持", .Dock = DockStyle.Fill}
+        panel.Controls.Add(flipXBox, 0, 8)
+        axisInfo = New System.Windows.Forms.Label With {
             .ForeColor = SystemColors.GrayText, .Dock = DockStyle.Fill,
             .TextAlign = ContentAlignment.MiddleLeft}
-        panel.Controls.Add(info, 0, 8)
+        panel.Controls.Add(axisInfo, 0, 9)
+        AddHandler flipBox.CheckedChanged, AddressOf UpdateAxisInfo
+        AddHandler flipXBox.CheckedChanged, AddressOf UpdateAxisInfo
+        UpdateAxisInfo(Me, EventArgs.Empty)
         Dim actions As New FlowLayoutPanel With {.Dock = DockStyle.Fill,
             .FlowDirection = FlowDirection.RightToLeft, .WrapContents = False}
         Dim cancelBtn As New Button With {.Text = "Cancel / キャンセル", .Size = New Size(155, 34),
@@ -324,10 +350,18 @@ Friend NotInheritable Class PssPicker
             .DialogResult = DialogResult.OK}
         actions.Controls.Add(cancelBtn)
         actions.Controls.Add(createBtn)
-        panel.Controls.Add(actions, 0, 9)
+        panel.Controls.Add(actions, 0, 10)
         Controls.Add(panel)
         AcceptButton = createBtn
         CancelButton = cancelBtn
+    End Sub
+
+    Private Sub UpdateAxisInfo(sender As Object, e As EventArgs)
+        axisInfo.Text = "Relative to the unflipped CSYS / 反転なしに対する軸の符号: " &
+            CoordinateSystems_PointSplineSurface_NX2306.AxisSigns(ReverseY, ReverseXHoldingY) & Environment.NewLine &
+            "Both checked: Y and Z reverse; X stays unchanged. Z = X cross Y (right-handed)." & Environment.NewLine &
+            "両方オン：Y軸・Z軸を反転し、X軸を維持します。常に右手系です。" & Environment.NewLine &
+            "Y is the surface normal orthogonalized against Z. / Y軸は面法線をZ軸に対して直交化します。"
     End Sub
 
     Private Function AddCombo(panel As TableLayoutPanel, titleText As String, row As Integer,

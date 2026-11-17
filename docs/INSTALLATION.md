@@ -286,7 +286,7 @@ git clone https://github.com/stefanoKS/NX_QualityOfLife.git
 | 1-1 Create Circles | 複合曲線グループから関連付け円を作成 |
 | 1-2 Arc Centers | 円弧・円のグループから関連付け中心点を作成 |
 | 1-3 Create Spline | 順序付けされた点群から非閉鎖の3次スプラインを作成 |
-| 1-4 Create CSYS | 点群＋スプライン＋面からデータム座標系を作成。初期設定は最初の点のみ |
+| 1-4 Create CSYS | 点群＋スプライン＋面からデータム座標系を作成。既定で全点を処理。Y・X反転とX・Z反転を組み合わせ可能 |
 | 1-5 Batch Sections | ミリメートル単位の作業パート：ボディ＋座標系から局所断面と図面を作成 |
 
 #### 配置の保持とロールのバックアップ
